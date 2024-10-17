@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const BannerSection = () => {
   return (
-    <div className="banner min-h-[90vh]" >
+    <div className="banner min-h-[75vh]" >
       <div className="banner-group-left">
         <h3 className="banner-title"><span className="text-primary-color">AI-Powered</span> Legal Assistance</h3>
         <p className="banner-description">
