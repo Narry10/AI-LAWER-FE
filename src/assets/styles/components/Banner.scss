@@ -1,0 +1,83 @@
+@import '../mixin.scss';
+
+.banner {
+  padding: 60px;
+  display: flex;
+  align-items: center;
+  background-size: contain;
+  background-position: inherit;
+  background-repeat: no-repeat;
+  box-sizing: initial;
+
+  &-group-left {
+    width: 60%;
+  }
+
+  &-title {
+    color: #000000;
+    font-size: 96px;
+    font-weight: 700;
+    line-height: 105.6px;
+    padding: 16px 0px 4px 4px;
+    text-align: left;
+  }
+
+  &-description {
+    font-size: 20px;
+    line-height: 32px;
+    margin-top: 48px;
+  }
+
+  &-img {
+    box-sizing: border-box;
+    height: auto;
+    max-width: 100%;
+    vertical-align: bottom;
+  }
+
+  @include responsive('tablet') {
+    flex-direction: column;
+    height: max-content;
+
+    &-group-left {
+      width: 100%;
+      text-align: center;
+    }
+
+    &-title {
+      font-size: 75px;
+      text-align: center;
+    }
+
+    &-description {
+      font-size: 18px;
+      line-height: 28px;
+      margin-top: 24px;
+      text-align: center;
+    }
+  }
+
+  @include responsive('mobile') {
+    flex-direction: column;
+    height: max-content;
+    padding: 10px;
+
+    &-group-left {
+      width: 100%;
+      text-align: center;
+    }
+
+    &-title {
+      font-size: 38px;
+      line-height: 50px;
+      text-align: center;
+    }
+
+    &-description {
+      font-size: 16px;
+      line-height: 24px;
+      margin-top: 20px;
+      text-align: center;
+    }
+  }
+}

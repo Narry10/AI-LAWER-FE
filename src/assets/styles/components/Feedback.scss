@@ -1,0 +1,76 @@
+@import '../mixin.scss';
+
+.feed-back {
+  padding: 200px;
+  text-align: center;
+  &__container {
+    & > h2 {
+      color: #17191f;
+      font-size: 48px;
+      font-weight: 700;
+      grid-area: auto / auto / auto / auto;
+      line-height: 52.8px;
+      text-align: center;
+      max-width: 888px;
+      margin: 0 auto;
+    }
+    & > p {
+      color: #323232;
+      font-size: 20px;
+      grid-area: auto / auto / auto / auto;
+      line-height: 32px;
+      padding: 24px 0px 0px;
+      text-align: center;
+    }
+  }
+  &-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    padding: 48px;
+    gap: 35px;
+  }
+  &-item {
+    display: flex;
+    align-items: start;
+    padding: 48px;
+    border: 1px solid #ccc;
+    border-radius: 40px;
+    & > p {
+      color: #323232;
+      font-family: Inter;
+      font-size: 24px;
+      grid-area: auto / auto / auto / auto;
+      line-height: 38.4px;
+      padding: 32px 0px 16px;
+      text-align: left;
+    }
+    & > img {
+      padding: 30px;
+    }
+  }
+  &-layout {
+    & > strong {
+      font-weight: bold;
+    }
+  }
+
+  @include responsive("tablet") {
+    padding: 60px 10px;
+    &-group {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        padding: 20px;
+        gap: 35px;
+    }
+    &-item {
+        padding: 20px;
+       & > p{
+        font-size: 20px;
+       }
+        & > img {
+          padding: 10px;
+        }
+      }
+  }
+}

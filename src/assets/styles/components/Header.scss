@@ -1,0 +1,86 @@
+@import "../mixin.scss";
+
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px;
+  height: 90px;
+
+  .header-left-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .logo-link {
+        text-decoration: none;
+
+        .logo-img {
+          width: 60px;
+          height: 60px;
+          cursor: pointer;
+        }
+
+        .logo-title {
+          color: #0673e7;
+          font-size: 22px;
+          font-weight: 700;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .navbar-item {
+        &-link {
+          font-size: 16px;
+          text-decoration: none;
+        }
+
+        .navbar-item-link {
+          font-size: 16px;
+          text-decoration: none;
+        }
+
+        &:hover {
+          color: aqua;
+        }
+      }
+      @include responsive("tablet") {
+        display: none;
+      }
+    }
+  }
+
+  .btn-action-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  @include responsive("tablet") {
+    padding: 0 10px;
+
+    .header-left-group {
+      .logo {
+        .logo-link {
+          text-decoration: none;
+
+          .logo-img {
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+@import './reset.scss';
+@import './global.scss';
+@import './mixin.scss';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './components/style.scss';
+
+body {
+    font-family: 'Oswald', sans-serif;
+}

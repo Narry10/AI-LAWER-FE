@@ -1,0 +1,51 @@
+@import '../mixin.scss';
+
+.footer{
+    background-color: #121212;
+    padding:80px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+  
+        .logo-link {
+          text-decoration: none;
+  
+          .logo-img {
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+          }
+  
+          .logo-title {
+            color: #0673e7;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+          }
+        }
+      }
+    &__row{
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+    &__text{
+        color: #8c8f94;
+        text-decoration: none;
+    }
+
+    @include responsive("tablet") {
+        padding: 10px;
+        &__row{
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            gap: 20px;
+        }
+    }
+
+}

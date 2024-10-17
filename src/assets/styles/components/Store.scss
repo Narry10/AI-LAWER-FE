@@ -1,0 +1,56 @@
+@import '../mixin.scss';
+
+.store {
+  background-image: linear-gradient(
+    75.84deg,
+    rgb(221, 210, 255) 0%,
+    rgb(210, 255, 214) 100%
+  );
+  color: #323232;
+  font-size: 20px;
+  grid-area: auto / auto / auto / auto;
+  line-height: 32px;
+  padding: 248px 20px;
+  &-group {
+    background-color: #1c1c1e;
+    border-radius: 50px;
+    color: #323232;
+    font-size: 20px;
+    grid-area: auto / auto / auto / auto;
+    line-height: 32px;
+    padding: 96px;
+    & > h2 {
+      color: #fff;
+      font-family: Inter;
+      font-size: 60px;
+      font-weight: 700;
+      grid-area: auto / auto / auto / auto;
+      line-height: 66px;
+      text-align: center;
+    }
+    & > p {
+      color: #a0a0a3;
+      font-family: Inter;
+      font-size: 20px;
+      grid-area: auto / auto / auto / auto;
+      line-height: 32px;
+      padding: 16px 0px 20px;
+      text-align: center;
+    }
+  }
+  &-btns {
+    margin: 4px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  @include responsive("mobile") {
+    &-group {
+      padding: 20px;
+      & > h2 {
+        font-size: 40px;
+      }
+    }
+  }
+}

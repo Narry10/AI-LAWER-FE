@@ -1,0 +1,98 @@
+@import "../mixin.scss";
+
+.journey {
+  &__title {
+    color: #17191f;
+    font-family: Inter;
+    font-size: 72px;
+    font-weight: 700;
+    grid-area: auto / auto / auto / auto;
+    line-height: 79.2px;
+    padding: 0px 48px 96px;
+  }
+  &-group {
+    display: flex;
+    gap: 233px;
+    &__left {
+      & > img {
+        font-size: 20px;
+        grid-area: auto / auto / auto / auto;
+        line-height: 32px;
+        width: 40vw;
+        max-height: 994px;
+      }
+    }
+    &__right {
+      & > h4 {
+        color: #17191f;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 700;
+        grid-area: auto / auto / auto / auto;
+        line-height: 26.4px;
+        padding: 80px 0px 0px;
+      }
+    }
+    &__item {
+      & > h5 {
+        color: #17191f;
+        font-family: Inter;
+        grid-area: auto / auto / auto / auto;
+        line-height: 153.6px;
+        padding: 40px 0px 0px;
+        font-size: 96px;
+        font-weight: 700;
+        letter-spacing: -2px;
+      }
+      & > p {
+        color: #323232;
+        font-family: Inter;
+        grid-area: auto / auto / auto / auto;
+        line-height: 25.6px;
+      }
+    }
+  }
+  @include responsive("tablet") {
+    height: max-content;
+    &__title {
+      font-size: 43px;
+      padding: 0px;;
+      
+    }
+    &-group {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      &__left {
+        width: 100%;
+        & > img {
+          width: 100%;
+          max-height: 994px;
+        }
+      }
+      &__right {
+        padding: 10px;
+        & > h4 {
+          font-size: 23.8797px;
+        }
+      }
+      &__item {
+        & > h5 {
+          font-size: 40px;
+          line-height: 60.6px;
+          padding: 20px 0px 0px;
+        }
+      }
+    }
+  }
+  @include responsive("mobile") {
+    flex-direction: column;
+    height: max-content;
+    padding: 10px;
+    &__title {
+      font-size: 38px;
+    }
+    &-description {
+      margin-top: 20px;
+    }
+  }
+}

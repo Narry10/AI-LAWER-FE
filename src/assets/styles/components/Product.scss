@@ -1,0 +1,119 @@
+@import '../mixin.scss';
+
+.product {
+  &--bg {
+    background-color: #e6e6e645;
+  }
+
+  &-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: space-between;
+
+    &-img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & > img {
+        color: #323232;
+        display: inline;
+        font-size: 20px;
+        grid-area: auto / auto / auto / auto;
+        line-height: 32px;
+        width: 333px;
+        object-fit: cover;
+      }
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+
+      & > h5 {
+        color: #17191f;
+        font-size: 36px;
+        font-weight: 700;
+        grid-area: auto / auto / auto / auto;
+        line-height: 39.6px;
+        padding: 16px 0px 0px;
+        text-align: center;
+      }
+
+      & > p {
+        color: #323232;
+        font-family: Inter;
+        font-size: 20px;
+        grid-area: auto / auto / auto / auto;
+        line-height: 32px;
+        padding: 8px 0px 0px;
+        text-align: center;
+      }
+    }
+  }
+
+  &-btns {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &-group {
+    &--reverse {
+      @include responsive("mobile") {
+        flex-direction: column-reverse !important;
+      }
+    }
+  }
+
+  @include responsive("tablet") {
+    &-group {
+      grid-template-columns: 1fr;
+      text-align: center;
+
+      &-img {
+        & > img {
+          width: 80%;
+          padding: 10px;
+        }
+      }
+
+      &-content {
+        & > h5 {
+          font-size: 28px;
+        }
+
+        & > p {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  @include responsive("mobile") {
+    &-group {
+      grid-template-columns: 1fr;
+      text-align: center;
+
+      &-img {
+        & > img {
+          width: 80%;
+          padding: 10px;
+        }
+      }
+
+      &-content {
+        & > h5 {
+          font-size: 24px;
+        }
+
+        & > p {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
