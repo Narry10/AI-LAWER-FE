@@ -55,7 +55,7 @@ const ProductSection: React.FC<IProduct> = ({
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={imgVariants}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.8 }}
       >
         <img src={imgSrc} alt="" />
       </motion.div>

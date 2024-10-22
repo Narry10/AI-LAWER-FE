@@ -1,14 +1,13 @@
 import { IFeedback, IProduct } from "../types";
 import Image1 from 'assets/images/Feature1.svg';
 import Image2 from 'assets/images/feature2.svg';
-import Image3 from 'assets/images/Frame-18-1.png';
 
 
 export const productMock: IProduct[] = [
     {
         title: 'Legal Document Analyzer',
         description: 'Our Legal Document Analyzer uses advanced AI to review and analyze legal documents. It highlights key clauses, identifies potential risks, and provides a summary of the document’s contents, saving you time and ensuring accuracy.',
-        buttonText: 'Learn More',
+        buttonText: 'Analyzer Now',
         link: '/features/legal-document-analyzer',
         imgSrc: Image1,
         type: 'default'
@@ -16,7 +15,7 @@ export const productMock: IProduct[] = [
     {
         title: 'Case Law Research Assistant',
         description: 'The Case Law Research Assistant helps you find relevant case law quickly and efficiently. With its powerful search capabilities and comprehensive database, you can easily locate precedents and legal references to support your cases.',
-        buttonText: 'Learn More',
+        buttonText: 'Research Assistant',
         link: '/features/case-law-research-assistant',
         imgSrc: Image2,
         type: 'reverse'

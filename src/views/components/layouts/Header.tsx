@@ -7,13 +7,8 @@ import RouterPath from "routers/routesContants";
 export const NAVBAR_ITEMS = [
     {
         id: 1,
-        name: "Ai Lawer",
-        path: RouterPath.BASE_URL,
-    },
-    {
-        id: 2,
-        name: "Terms of Service",
-        path: RouterPath.PROFILE_URL,
+        name: "Chat Service",
+        path: RouterPath.CHAT,
     },
 ];
 
@@ -47,7 +42,7 @@ const Header = () => {
                         );
                     })}
                 </ul>
-                <Button variant="outlined" size="small">
+                <Button variant="outlined" size="small" to={RouterPath.CHAT}>
                     Start now
                 </Button>
             </div>

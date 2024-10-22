@@ -3,27 +3,15 @@ import { authLogged } from "contexts/auth";
 import { useAppDispatch, useAppSelector } from "contexts/hooks";
 import { IUser, userFetchMe } from "contexts/user";
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
-import { Navigate, Route, Routes, type RouteProps } from "react-router-dom";
-import useIsMobile from "../hooks/useIsMobile";
-import Home from "../views/pages/home";
-import RouterPath from "./routesContants";
-import Header from "views/components/layouts/Header";
+import { Route, Routes, type RouteObject } from "react-router-dom";
 import Loading from "views/components/Commons/Loading";
 import Footer from "views/components/layouts/Footer";
-
-export const LayoutLoading = () => (
-  <div
-    style={{
-      width: "100vw",
-      height: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    loading
-  </div>
-);
+import Header from "views/components/layouts/Header";
+import useIsMobile from "../hooks/useIsMobile";
+import DashboardLayoutScreen from "../views/pages/Chat";
+import Home from "views/pages/home";
+import RouterPath from "./routesContants";
+import Question from "views/pages/Chat/Screens/Question";
 
 const getDynamicRouter = (
   deskTop: ReactNode,
@@ -31,19 +19,24 @@ const getDynamicRouter = (
   isMobile: boolean
 ) => <div>{isMobile ? mobile : deskTop}</div>;
 
+const DashboardLayout = ({ children }: { children: ReactNode }) => (
+  <div>{children}</div>
+);
+
 const DefaultLayout = ({ children }: { children: ReactNode }) => (
   <div>
     <Header />
     {children}
-    <Footer/>
+    <Footer />
   </div>
 );
 
-type CustomRouteProps = RouteProps;
+type CustomRouteProps = RouteObject;
 
-export const ManageView = () => {
+const ManageView = () => {
   const isMobile = useIsMobile();
   const isLogin = useAppSelector((state) => state.auth.isLogin);
+
   const routes: CustomRouteProps[] = useMemo(
     () => [
       {
@@ -53,7 +46,20 @@ export const ManageView = () => {
             <Home />
           </DefaultLayout>
         ),
-        loader: undefined,
+      },
+      {
+        path: RouterPath.CHAT,
+        element: <DashboardLayoutScreen />,
+        children: [
+          {
+            path: RouterPath.CHAT_Question_Marriage,
+            element: <Question />,
+          },
+          {
+            path: `${RouterPath.CHAT_Question_Land}`,
+            element: <Question />
+          },
+        ],
       },
     ],
     [isMobile]
@@ -62,15 +68,22 @@ export const ManageView = () => {
   const privateRoutes: CustomRouteProps[] = useMemo(() => [], []);
 
   const getRoutes = (isLogin: boolean) => {
-    const r = new Array<CustomRouteProps>();
-    r.push(...routes);
-    if (isLogin) r.push(...privateRoutes);
-    return r.map((p, i) => <Route key={i} {...p} />);
+    const allRoutes = [...routes];
+    if (isLogin) allRoutes.push(...privateRoutes);
+
+    return allRoutes.map((route, index) => (
+      <Route key={index} path={route.path} element={route.element}>
+        {route.children?.map((child, childIndex) => (
+          <Route key={childIndex} path={child.path} element={child.element} />
+        ))}
+      </Route>
+    ));
   };
+
   return (
     <Routes>
       {getRoutes(isLogin)}
-      <Route path="*" element={<Navigate to="/" />} />
+      {/* <Route path="*" element={<Navigate to="/" />} /> */}
     </Routes>
   );
 };
@@ -90,7 +103,7 @@ export default function Router() {
           providerId: user.providerId,
           uid: user.uid,
         };
-     
+
         dispatch(userFetchMe(mapUser));
         dispatch(authLogged());
       }
@@ -98,8 +111,8 @@ export default function Router() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [dispatch]);
 
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
   return <ManageView />;
 }
