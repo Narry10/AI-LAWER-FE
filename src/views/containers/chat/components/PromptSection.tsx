@@ -1,7 +1,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
-import { PromptMock } from "../constants/mock";
 import CardPrompt from "views/components/Commons/CardPrompt";
+import { PromptMock } from "views/containers/constants/mock";
 
 const containerVariants = {
   hidden: { opacity: 0 },

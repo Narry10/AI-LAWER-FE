@@ -42,7 +42,7 @@ const Header = () => {
                         );
                     })}
                 </ul>
-                <Button variant="outlined" size="small" to={RouterPath.CHAT}>
+                <Button variant="outlined" size="small" to={RouterPath.CHAT_Question_Marriage}>
                     Start now
                 </Button>
             </div>

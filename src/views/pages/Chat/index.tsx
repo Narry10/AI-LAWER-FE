@@ -37,7 +37,7 @@ export default function DashboardLayoutScreen(props: ChatProps) {
         title: "",
       }}
     >
-      <DashboardLayout sidebarOpen={true} >
+      <DashboardLayout sx={{backgroundColor:'black'}} >
         <Outlet />
       </DashboardLayout>
     </AppProvider>

@@ -1,27 +1,40 @@
-import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from './app'; 
-import { authReducer } from './auth';
-import { userReducer } from './user';
-import { voteReducer } from './vote';
+import {
+  configureStore,
+  combineReducers,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./app";
+import { authReducer } from "./auth";
+import { userReducer } from "./user";
+import {
+  questionFormReducer,
+  questionViewReducer,
+} from "./question/questionReduce";
 
-// Tạo middleware saga
 const sagaMiddleware = createSagaMiddleware();
 
-export const rootReducer = combineReducers({
-  auth:authReducer,
-  user:userReducer,
-  vote: voteReducer,
+const rootQuestReducer = combineReducers({
+  view: questionViewReducer,
+  form: questionFormReducer,
 });
 
-const rootMiddleware = [...getDefaultMiddleware({ serializableCheck: false }), sagaMiddleware];
+export const rootReducer = combineReducers({
+  auth: authReducer,
+  user: userReducer,
+  question: rootQuestReducer,
+});
+
+const rootMiddleware = [
+  ...getDefaultMiddleware({ serializableCheck: false }),
+  sagaMiddleware,
+];
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: rootMiddleware,
-  devTools: process.env.NODE_ENV !== 'production',
+  devTools: process.env.NODE_ENV !== "production",
 });
-
 
 sagaMiddleware.run(rootSaga);
 
