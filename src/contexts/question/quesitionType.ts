@@ -25,3 +25,35 @@ export interface QuestionFormState extends CommonState {
   loading: boolean;
   formData: ChatForm;
 }
+
+export interface QuestionAnswer {
+  description: string;
+  specificSituation: string;
+}
+
+export interface Result {
+  fullName: string;
+  caseType: string;
+  phone: string;
+  gender: string;
+  question: string;
+  answer: string;
+}
+
+export interface QuestionTemplate extends QuestionAnswer{
+  image: string;
+  subheader: string;
+  tags: string[];
+  title: string;
+  example: QuestionAnswer;
+}
+
+export interface responseQuestion {
+  question: string;
+  answer: string;
+}
+
+export interface QuestionResultState extends CommonState {
+  loading: boolean;
+  data?: Result;
+}

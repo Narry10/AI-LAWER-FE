@@ -32,6 +32,7 @@ export default function DashboardLayoutScreen(props: ChatProps) {
       navigation={categories}
       theme={demoTheme}
       router={router}
+      window={demoWindow}
       branding={{
         logo: <img src={logo} alt="logo" />,
         title: "",

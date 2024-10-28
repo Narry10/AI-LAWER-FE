@@ -9,7 +9,6 @@ export default class RouterPath {
 	static readonly CHAT_HISTORY = `${RouterPath.CHAT}/history`;
 
 	// use sidebar db 
-	static readonly CHAT_Question_Land_DB = `chat/land`;
-	static readonly CHAT_Question_Marriage_DB = `chat/marriage`;
+	static readonly CHAT_DB = 'chat';
   }
   

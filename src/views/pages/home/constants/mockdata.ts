@@ -2,20 +2,19 @@ import { IFeedback, IProduct } from "../types";
 import Image1 from 'assets/images/Feature1.svg';
 import Image2 from 'assets/images/feature2.svg';
 
-
 export const productMock: IProduct[] = [
     {
-        title: 'Legal Document Analyzer',
-        description: 'Our Legal Document Analyzer uses advanced AI to review and analyze legal documents. It highlights key clauses, identifies potential risks, and provides a summary of the document’s contents, saving you time and ensuring accuracy.',
-        buttonText: 'Analyzer Now',
+        title: 'Phân Tích Tài Liệu Pháp Lý',
+        description: 'Công cụ Phân Tích Tài Liệu Pháp Lý của chúng tôi sử dụng AI tiên tiến để xem xét và phân tích tài liệu pháp lý. Nó làm nổi bật các điều khoản chính, xác định các rủi ro tiềm ẩn và cung cấp bản tóm tắt nội dung của tài liệu, giúp bạn tiết kiệm thời gian và đảm bảo độ chính xác.',
+        buttonText: 'Phân Tích Ngay',
         link: '/features/legal-document-analyzer',
         imgSrc: Image1,
         type: 'default'
     },
     {
-        title: 'Case Law Research Assistant',
-        description: 'The Case Law Research Assistant helps you find relevant case law quickly and efficiently. With its powerful search capabilities and comprehensive database, you can easily locate precedents and legal references to support your cases.',
-        buttonText: 'Research Assistant',
+        title: 'Trợ Lý Nghiên Cứu Án Lệ',
+        description: 'Trợ Lý Nghiên Cứu Án Lệ giúp bạn tìm kiếm án lệ liên quan một cách nhanh chóng và hiệu quả. Với khả năng tìm kiếm mạnh mẽ và cơ sở dữ liệu toàn diện, bạn có thể dễ dàng tìm thấy các tiền lệ và tài liệu pháp lý để hỗ trợ cho các vụ án của mình.',
+        buttonText: 'Trợ Lý Nghiên Cứu',
         link: '/features/case-law-research-assistant',
         imgSrc: Image2,
         type: 'reverse'
@@ -24,20 +23,19 @@ export const productMock: IProduct[] = [
 
 export const feedbackMock: IFeedback[] = [
     {
-        title: 'Legal Document Translator',
-        description: 'This app was incredibly useful for translating legal documents. I had to review a contract written in a foreign language, and this app translated it accurately and quickly. The translation was clear and easy to understand, which saved me a lot of time and effort. Highly recommended for anyone dealing with international legal documents.',
+        title: 'Dịch Thuật Tài Liệu Pháp Lý',
+        description: 'Ứng dụng này rất hữu ích cho việc dịch thuật tài liệu pháp lý. Tôi cần xem xét một hợp đồng được viết bằng ngôn ngữ nước ngoài, và ứng dụng này đã dịch nó một cách chính xác và nhanh chóng. Bản dịch rõ ràng và dễ hiểu, giúp tôi tiết kiệm rất nhiều thời gian và công sức. Rất khuyến khích cho bất kỳ ai làm việc với tài liệu pháp lý quốc tế.',
     },
     {
-        title: 'Case Law Finder',
-        description: 'Finding relevant case law has never been easier. This app allows me to quickly search for and find case law that is pertinent to my current cases. The search functionality is robust and the results are comprehensive. It’s a must-have tool for any legal professional.',
+        title: 'Tìm Kiếm Án Lệ',
+        description: 'Việc tìm kiếm án lệ liên quan chưa bao giờ dễ dàng hơn. Ứng dụng này cho phép tôi nhanh chóng tìm kiếm và tìm thấy án lệ phù hợp với các vụ án hiện tại của mình. Chức năng tìm kiếm mạnh mẽ và kết quả rất toàn diện. Đây là một công cụ không thể thiếu cho bất kỳ chuyên gia pháp lý nào.',
     },
     {
-        title: 'Client Management',
-        description: 'Managing client information and case details is a breeze with this app. It keeps everything organized and easily accessible. I can track case progress, manage appointments, and communicate with clients all in one place. It’s an invaluable tool for any law firm.',
+        title: 'Quản Lý Khách Hàng',
+        description: 'Quản lý thông tin khách hàng và chi tiết vụ án trở nên dễ dàng với ứng dụng này. Nó giữ mọi thứ được tổ chức và dễ dàng truy cập. Tôi có thể theo dõi tiến trình vụ án, quản lý các cuộc hẹn và giao tiếp với khách hàng tất cả trong một nơi. Đây là một công cụ vô giá cho bất kỳ công ty luật nào.',
     },
     {
-        title: 'AI Legal Advisor',
-        description: 'I am absolutely impressed with this app. It provides intelligent legal advice on a wide range of topics. Whether I need help drafting a legal document or understanding a complex legal issue, this app has the answers. It’s like having a personal legal advisor available 24/7.',
+        title: 'Cố Vấn Pháp Lý AI',
+        description: 'Tôi hoàn toàn ấn tượng với ứng dụng này. Nó cung cấp lời khuyên pháp lý thông minh về nhiều chủ đề khác nhau. Dù tôi cần giúp đỡ soạn thảo tài liệu pháp lý hay hiểu một vấn đề pháp lý phức tạp, ứng dụng này đều có câu trả lời. Nó giống như có một cố vấn pháp lý cá nhân sẵn sàng 24/7.',
     },
 ];
-

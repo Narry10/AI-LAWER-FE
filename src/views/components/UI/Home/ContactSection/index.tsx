@@ -27,10 +27,9 @@ const ContactSection: React.FC = () => {
           variants={fadeInVariants}
           transition={{ delay: 0.2 }}
         >
-          <h3>Feel free to contact us</h3>
+          <h3>Hãy liên hệ với chúng tôi</h3>
           <p>
-            We’re here to help! If you have any questions or feedback, please
-            don’t hesitate to email us at
+            Chúng tôi luôn sẵn sàng giúp đỡ! Nếu bạn có bất kỳ câu hỏi hoặc phản hồi nào, xin đừng ngần ngại gửi email cho chúng tôi tại
           </p>
           <strong>support@lawyer.app.</strong>
         </motion.div>

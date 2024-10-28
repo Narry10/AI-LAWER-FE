@@ -3,21 +3,17 @@ import React from "react";
 import { createTheme } from "@mui/material/styles";
 import { FaHeart, FaLandmark } from "react-icons/fa";
 import RouterPath from "routers/routesContants";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export const categories: Navigation = [
   {
-    title: "Danh mục",
+    title: "Chức năng",
     kind: "header",
   },
   {
-    segment: RouterPath.CHAT_Question_Marriage_DB,
-    title: "Hôn Nhân",
-    icon: <FaHeart />,
-  },
-  {
-    segment: RouterPath.CHAT_Question_Land_DB,
-    title: "Đất đai",
-    icon: <FaLandmark />,
+    segment: RouterPath.CHAT_DB,
+    title: "Tư vấn",
+    icon: <DashboardIcon />,
   },
 ];
 

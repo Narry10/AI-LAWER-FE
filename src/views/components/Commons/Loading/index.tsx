@@ -1,10 +1,14 @@
 import React from "react";
 import LoadingImage from "assets/images/LoadingIcon.svg";
 
-const Loading = () => {
+interface LoadingProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+}
+
+const Loading: React.FC<LoadingProps> = ({ className, ...rest }) => {
   return (
-    <div className="Loading">
-      <img src={LoadingImage} alt="" />
+    <div {...rest} className={`Loading ${className || ""}`}>
+      <img src={LoadingImage} alt="Loading" />
     </div>
   );
 };

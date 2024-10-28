@@ -28,7 +28,15 @@ export const PromptSection = () => {
     >
       {PromptMock.map((item, index) => (
         <motion.div key={index} variants={itemVariants} custom={index}>
-          <CardPrompt item={item} />
+          <CardPrompt
+            description={item.description}
+            example={item.example}
+            image={item.image}
+            specificSituation={item.specificSituation}
+            subheader={item.subheader}
+            tags={item.tags}
+            title={item.title}
+          />
         </motion.div>
       ))}
     </motion.div>

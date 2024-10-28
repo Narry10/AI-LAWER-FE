@@ -4,7 +4,7 @@ import Logo from "assets/images/LoadingIcon.svg";
 import { motion } from "framer-motion";
 import React from "react";
 import { PromptSection } from "../components/PromptSection";
-import { useAppDispatch } from "contexts/hooks";
+import { useAppDispatch, useAppSelector } from "contexts/hooks";
 import { questionChangeView } from "contexts/question/questionActions";
 import { ViewFactory } from "contexts/question/quesitionType";
 
@@ -46,7 +46,7 @@ const ChatPreview = () => {
           className="text-4xl text-primary-color font-bold"
           variants={itemVariants}
         >
-          AI LAWYER
+           AI LAWYER
         </motion.h1>
       </motion.div>
       <PromptSection />
@@ -68,7 +68,7 @@ const ChatPreview = () => {
           >
             <InputBase
               type="text"
-              className="border-none outline-none flex-1 text-black"
+              className="border-none outline-none flex-1 text-black cursor-pointer"
               placeholder="Yêu cầu pháp lý của bạn ?"
             />
             <IconButton type="submit" className="text-primary-color">

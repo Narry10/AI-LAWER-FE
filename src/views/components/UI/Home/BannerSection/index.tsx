@@ -6,13 +6,13 @@ import { motion } from "framer-motion";
 
 const BannerSection = () => {
   return (
-    <div className="banner min-h-[75vh]" >
-      <div className="banner-group-left">
-        <h3 className="banner-title"><span className="text-primary-color">AI-Powered</span> Legal Assistance</h3>
+    <div className="banner min-h-[75vh]">
+      <div className="banner-group-left max-w-[50vw]">
+        <h3 className="banner-title ">
+          <span className="text-primary-color">Trợ Lý Pháp Lý</span> Sử Dụng AI
+        </h3>
         <p className="banner-description">
-          Simplify your legal tasks with AI Lawyer. Our intelligent, AI-powered
-          solutions provide accurate and efficient legal assistance, making your
-          legal processes smoother and more reliable.
+          Đơn giản hóa các nhiệm vụ pháp lý của bạn với AI Lawyer. Giải pháp thông minh, sử dụng AI của chúng tôi cung cấp trợ lý pháp lý chính xác và hiệu quả, giúp quy trình pháp lý của bạn trở nên mượt mà và đáng tin cậy hơn.
         </p>
       </div>
       <motion.div

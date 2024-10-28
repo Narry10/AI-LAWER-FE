@@ -9,6 +9,7 @@ import { authReducer } from "./auth";
 import { userReducer } from "./user";
 import {
   questionFormReducer,
+  questionResultReducer,
   questionViewReducer,
 } from "./question/questionReduce";
 
@@ -17,6 +18,7 @@ const sagaMiddleware = createSagaMiddleware();
 const rootQuestReducer = combineReducers({
   view: questionViewReducer,
   form: questionFormReducer,
+  result: questionResultReducer,
 });
 
 export const rootReducer = combineReducers({

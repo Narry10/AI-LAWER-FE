@@ -3,15 +3,20 @@ import { authLogged } from "contexts/auth";
 import { useAppDispatch, useAppSelector } from "contexts/hooks";
 import { IUser, userFetchMe } from "contexts/user";
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
-import { Route, Routes, type RouteObject } from "react-router-dom";
+import { Navigate, Route, Routes, type RouteObject } from "react-router-dom";
 import Loading from "views/components/Commons/Loading";
 import Footer from "views/components/layouts/Footer";
 import Header from "views/components/layouts/Header";
-import useIsMobile from "../hooks/useIsMobile";
-import DashboardLayoutScreen from "../views/pages/Chat";
-import Home from "views/pages/home";
-import RouterPath from "./routesContants";
 import Question from "views/pages/Chat/Screens/Question";
+import Home from "views/pages/home";
+import DashboardLayoutScreen from "../views/pages/Chat";
+import RouterPath from "./routesContants";
+
+const LoadingView = () => {
+  return <div className="h-screen flex items-center justify-center">
+    <Loading className="w-30 h-30"/>
+  </div>;
+};
 
 const getDynamicRouter = (
   deskTop: ReactNode,
@@ -34,7 +39,6 @@ const DefaultLayout = ({ children }: { children: ReactNode }) => (
 type CustomRouteProps = RouteObject;
 
 const ManageView = () => {
-  const isMobile = useIsMobile();
   const isLogin = useAppSelector((state) => state.auth.isLogin);
 
   const routes: CustomRouteProps[] = useMemo(
@@ -62,7 +66,7 @@ const ManageView = () => {
         ],
       },
     ],
-    [isMobile]
+    []
   );
 
   const privateRoutes: CustomRouteProps[] = useMemo(() => [], []);
@@ -83,7 +87,7 @@ const ManageView = () => {
   return (
     <Routes>
       {getRoutes(isLogin)}
-      {/* <Route path="*" element={<Navigate to="/" />} /> */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
@@ -111,8 +115,8 @@ export default function Router() {
     });
 
     return () => unsubscribe();
-  }, [dispatch]);
+  }, []);
 
-  if (loading) return <Loading />;
+  if (loading) return <LoadingView />;
   return <ManageView />;
 }

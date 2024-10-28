@@ -45,7 +45,7 @@ const Button: React.FC<IButton> = ({
 
   if (to) {
     return (
-      <Link to={to} className={classes} {...props}>
+      <Link to={to} className={classes} {...props} >
         {leftIcon && <span className="btn-icon left-icon">{leftIcon}</span>}
         {loading ? <span className="btn-loading">Loading...</span> : children}
         {rightIcon && <span className="btn-icon right-icon">{rightIcon}</span>}

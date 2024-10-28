@@ -32,7 +32,7 @@ const FeedBack: React.FC<FeedBackProps> = ({ feedbacks }) => {
           variants={fadeInUpVariants}
           transition={{ delay: 0.2 }}
         >
-          Find out what our most successful clients say about us
+          Tìm hiểu những gì khách hàng thành công nhất của chúng tôi nói về chúng tôi
         </motion.h2>
         <motion.p
           initial="hidden"
@@ -40,8 +40,7 @@ const FeedBack: React.FC<FeedBackProps> = ({ feedbacks }) => {
           variants={fadeInUpVariants}
           transition={{ delay: 0.4 }}
         >
-          It’s always the best source to hear from others who have already used
-          our apps.
+          Luôn luôn là nguồn tốt nhất để nghe từ những người đã sử dụng ứng dụng của chúng tôi.
         </motion.p>
         <div className="feed-back-group">
           {feedbacks &&
