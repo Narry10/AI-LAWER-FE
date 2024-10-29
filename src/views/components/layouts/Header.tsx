@@ -25,7 +25,7 @@ export const NAVBAR_ITEMS = [
   {
     id: 1,
     name: "Chat Service",
-    path: RouterPath.CHAT_Question_Marriage,
+    path: RouterPath.CHAT,
   },
 ];
 

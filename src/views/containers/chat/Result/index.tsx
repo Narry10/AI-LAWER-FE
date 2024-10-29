@@ -3,7 +3,7 @@ import {
   Description,
   Info,
   Person,
-  Phone
+  Phone,
 } from "@mui/icons-material";
 import {
   Box,
@@ -14,7 +14,7 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import Textarea from "@mui/material/TextareaAutosize";
 import Logo from "assets/images/LoadingIcon.svg";
@@ -22,7 +22,9 @@ import { useAppDispatch, useAppSelector } from "contexts/hooks";
 import { ViewFactory } from "contexts/question/quesitionType";
 import { questionChangeView } from "contexts/question/questionActions";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useState } from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const containerVariants = {
   hidden: { opacity: 0, scale: 0.8 },
@@ -43,7 +45,9 @@ const itemVariants = {
 };
 
 const ResultQuestion = () => {
-  const formData = useAppSelector(state => state.question.result.data) || {
+  const [isFavorite, setIsFavorite] = useState<Boolean>(false);
+
+  const formData = useAppSelector((state) => state.question.result.data) || {
     answer: "",
     caseType: "",
     description: "",
@@ -56,6 +60,10 @@ const ResultQuestion = () => {
 
   const handleNextPage = () => {
     dispatch(questionChangeView(ViewFactory.preview));
+  };
+
+  const handleToggleFavorite = () => {
+    setIsFavorite(!isFavorite);
   };
 
   return (
@@ -75,9 +83,7 @@ const ResultQuestion = () => {
         </motion.h1>
       </motion.div>
       <div className="max-h-max bg-gray-800 w-full rounded-2xl p-2 overflow-auto">
-        <Box
-          className="w-full h-full rounded-2xl flex p-6 flex-col gap-4 bg-gray-900"
-        >
+        <Box className="w-full h-full rounded-2xl flex p-6 flex-col gap-4 bg-gray-900">
           {formData.fullName && (
             <Box className="flex flex-col gap-2">
               <Typography variant="h6" className="text-white">
@@ -195,7 +201,9 @@ const ResultQuestion = () => {
               <Box className="flex items-center gap-2">
                 <Chip
                   label="Đất đai"
-                  color={formData.caseType === "Đất đai" ? "primary" : "default"}
+                  color={
+                    formData.caseType === "Đất đai" ? "primary" : "default"
+                  }
                 />
                 <Chip
                   label="Lao động"
@@ -208,6 +216,20 @@ const ResultQuestion = () => {
           )}
           <div className="mt-auto flex justify-between items-center">
             <ArrowBack className="cursor-pointer" onClick={handleNextPage} />
+            <div className="flex items-center gap-2">
+              <Chip
+                icon={isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                label={isFavorite ? "Hủy chọn yêu thích" : "Thêm vào yêu thích"}
+                onClick={handleToggleFavorite}
+                sx={{
+                  backgroundColor: isFavorite ? "primary.main" : "default",
+                  color: isFavorite ? "white" : "text.primary",
+                  "& .MuiChip-icon": {
+                    color: isFavorite ? "white" : "primary.main",
+                  },
+                }}
+              />
+            </div>
           </div>
         </Box>
       </div>

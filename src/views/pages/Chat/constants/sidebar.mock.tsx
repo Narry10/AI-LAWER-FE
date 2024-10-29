@@ -1,7 +1,7 @@
 import { Navigation } from "@toolpad/core/AppProvider";
 import React from "react";
 import { createTheme } from "@mui/material/styles";
-import { FaHeart, FaLandmark } from "react-icons/fa";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import RouterPath from "routers/routesContants";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
@@ -14,6 +14,15 @@ export const categories: Navigation = [
     segment: RouterPath.CHAT_DB,
     title: "Tư vấn",
     icon: <DashboardIcon />,
+  },
+  {
+    title: "Lưu Trữ",
+    kind: "header",
+  },
+  {
+    segment: RouterPath.CHAT_HISTORY_DB,
+    title: "Yêu thích",
+    icon: <FavoriteIcon/>,
   },
 ];
 

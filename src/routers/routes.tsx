@@ -11,6 +11,7 @@ import Question from "views/pages/Chat/Screens/Question";
 import Home from "views/pages/home";
 import DashboardLayoutScreen from "../views/pages/Chat";
 import RouterPath from "./routesContants";
+import History from "views/pages/Chat/Screens/History";
 
 const LoadingView = () => {
   return <div className="h-screen flex items-center justify-center">
@@ -56,12 +57,12 @@ const ManageView = () => {
         element: <DashboardLayoutScreen />,
         children: [
           {
-            path: RouterPath.CHAT_Question_Marriage,
+            path: RouterPath.CHAT,
             element: <Question />,
           },
           {
-            path: `${RouterPath.CHAT_Question_Land}`,
-            element: <Question />
+            path: `${RouterPath.CHAT_HISTORY}`,
+            element: <History/>
           },
         ],
       },
@@ -100,6 +101,8 @@ export default function Router() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
+        console.log(user);
+        
         const mapUser: IUser = {
           displayName: user.displayName,
           email: user.email,

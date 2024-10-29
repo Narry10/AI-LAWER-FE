@@ -25,7 +25,7 @@ import {
   questionUpdateForm,
 } from "contexts/question/questionActions";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import Loading from "views/components/Commons/Loading";
 
 const containerVariants = {
@@ -49,6 +49,7 @@ const itemVariants = {
 const FormQuestion = () => {
   const formData = useAppSelector((state) => state.question.form.formData);
   const loading = true;
+  const user = useAppSelector((state) => state.user.data);
   const error = useAppSelector((state) => state.question.result.error);
 
   const dispatch = useAppDispatch();
@@ -74,6 +75,14 @@ const FormQuestion = () => {
     e.preventDefault();
     handleNextPage();
   };
+
+  // auto ref user infomation to input
+  useLayoutEffect(()=>{
+    if(user){
+      dispatch(questionUpdateForm("fullName", user?.displayName || ""));
+      
+    }
+  },[])
 
   return (
     <div className="w-full flex flex-col">

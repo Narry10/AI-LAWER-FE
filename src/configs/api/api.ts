@@ -14,11 +14,9 @@ import type { ApiResponse } from './apiResponses';
 import { convertObjectToQueryParams } from 'utils/urlUtils';
 
 const apiRequestConfig: CreateAxiosDefaults<unknown> = {
-  // baseURL: process.env.REACT_APP_API_KEY_BASE_URL || 'http://localhost:4000',
   baseURL: 'http://127.0.0.1:8000',
   timeout: REQUEST_TIMEOUT_MS,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: true,
 };
 
 export const axiosInstance: AxiosInstance = axios.create(apiRequestConfig);
