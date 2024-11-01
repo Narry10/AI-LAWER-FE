@@ -19,7 +19,7 @@ import {
 } from "./quesitionType";
 
 const initialState: QuestionViewState = {
-  view: ViewFactory.preview,
+  view: ViewFactory.result,
   loading: false,
   error: undefined,
 };
@@ -44,13 +44,11 @@ const initialFormState: QuestionFormState = {
   loading: false,
   error: undefined,
   formData: {
-    description:
-      "Tôi muốn biết các biện pháp giải quyết tranh chấp đất đai theo pháp luật Việt Nam. Cụ thể, tôi đang gặp vấn đề với việc tranh chấp quyền sử dụng đất với hàng xóm. Họ đã xây dựng một phần nhà trên mảnh đất của tôi mà không có sự đồng ý của tôi. Tôi muốn biết các bước cần thiết để giải quyết vấn đề này theo quy định của pháp luật.",
-    specificSituation:
-      "Tranh chấp quyền sử dụng đất với hàng xóm do họ xây dựng một phần nhà trên mảnh đất của tôi mà không có sự đồng ý của tôi.",
-    caseType: "Đất đai",
-    fullName: "Nguyễn Văn A",
-    gender: "male",
+    description: "",
+    specificSituation: "",
+    caseType: "",
+    fullName: "",
+    gender: "",
     phone: "0123456789",
   },
 };
@@ -74,13 +72,11 @@ export const questionFormReducer = questionFormSlice.reducer;
 
 const initialResultState: QuestionResultState = {
   data: {
-    fullName: "Nguyễn Văn A",
-    phone: "0123456789",
-    answer:
-      "Theo quy định tại Điều 189 Bộ luật Dân sự 2015 quy định về các biện pháp giải quyết tranh chấp đất đai như sau: Các biện pháp giải quyết tranh chấp đất đai Các biện pháp giải quyết tranh chấp đất đai được thực hiện theo pháp luật về đất đai, pháp luật về đất đai và pháp luật có liên quan. Theo đó, các biện pháp giải quyết tranh chấp đất đai được thực hiện theo pháp luật về đất đai, pháp luật về đất đai và pháp luật có liên quan. Các biện pháp giải quyết tranh chấp đất đai được thực hiện theo pháp luật về đất đai, pháp luật về đất đai và pháp luật có liên quan. Trân trọng!",
-    question:
-      "Các biện pháp giải quyết tranh chấp đất đai theo pháp luật Việt Nam là gì?",
-    gender: "male",
+    fullName: "Harry",
+    phone: "0886314366",
+    answer: "Căn cứ Điều 59 Luật Hôn nhân và gia đình năm 2014 quy định: - Vợ, chồng hoặc cả hai người có quyền yêu cầu Tòa án giải quyết ly hôn. - Cha, mẹ, người thân thích khác có quyền yêu cầu Tòa án giải quyết ly hôn khi một bên vợ, chồng do bị bệnh tâm thần hoặc mắc bệnh khác mà không thể nhận thức, làm chủ được hành vi của mình, đồng thời là nạn nhân của bạo lực gia đình do chồng, vợ của họ gây ra làm ảnh hưởng nghiêm trọng đến tính mạng, sức khỏe, tinh thần của họ. - Chồng không có quyền yêu cầu ly hôn trong trường hợp vợ đang có thai, sinh con hoặc đang nuôi con dưới 12 tháng tuổi. - Trong trường hợp vợ đang có thai, sinh con hoặc đang nuôi con dưới 12 tháng tuổi thì chồng không có quyền yêu cầu ly hôn. - Trong trường hợp chồng đang có thai, sinh con hoặc đang nuôi con dưới 12 tháng tuổi thì",
+    question: "Mẹ tôi và dượng tôi ở với nhau gần 10 năm nhưng không đăng ký kết hôn Nay dượng tôi phản bội mẹ tôi, có vợ mới và muốn chia đôi số tài sản, trong đó tiền vốn là của tôi bỏ ra cho mẹ tôi làm ăn. Ông ta đòi làm đơn kiện nếu mẹ tôi không đồng ý chia đôi số tài sản hiện tại. Trường hợp này phải giải quyết như thế nào? (Số tiền tôi đưa mẹ làm ăn không có giấy tờ gì chứng minh cả)",
+    gender: "female",
     caseType: "Đất đai",
   },
   loading: false,

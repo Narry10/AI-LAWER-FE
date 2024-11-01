@@ -12,6 +12,7 @@ import {
   questionResultReducer,
   questionViewReducer,
 } from "./question/questionReduce";
+import { historyReducer } from "./history";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -25,6 +26,7 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   question: rootQuestReducer,
+  history: historyReducer,
 });
 
 const rootMiddleware = [

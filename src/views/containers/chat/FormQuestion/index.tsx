@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from "contexts/hooks";
 import { ViewFactory } from "contexts/question/quesitionType";
 import {
   questionChangeView,
+  questionFetchResult,
   questionUpdateForm,
 } from "contexts/question/questionActions";
 import { motion } from "framer-motion";
@@ -48,12 +49,11 @@ const itemVariants = {
 
 const FormQuestion = () => {
   const formData = useAppSelector((state) => state.question.form.formData);
-  const loading = true;
+  const loading = useAppSelector((state) => state.question.result.loading);
   const user = useAppSelector((state) => state.user.data);
   const error = useAppSelector((state) => state.question.result.error);
-
   const dispatch = useAppDispatch();
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch(questionUpdateForm(name, value));
@@ -63,9 +63,7 @@ const FormQuestion = () => {
     dispatch(questionUpdateForm("caseType", caseType));
   };
 
-  const handleNextPage = () => {
-    dispatch(questionChangeView(ViewFactory.result));
-  };
+  const handleNextPage = () => {};
 
   const handleBackPage = () => {
     dispatch(questionChangeView(ViewFactory.preview));
@@ -73,16 +71,20 @@ const FormQuestion = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleNextPage();
+    dispatch(
+      questionFetchResult({
+        description: formData.description,
+        specificSituation: formData.specificSituation,
+      })
+    );
   };
 
   // auto ref user infomation to input
-  useLayoutEffect(()=>{
-    if(user){
+  useLayoutEffect(() => {
+    if (user) {
       dispatch(questionUpdateForm("fullName", user?.displayName || ""));
-      
     }
-  },[])
+  }, []);
 
   return (
     <div className="w-full flex flex-col">

@@ -3,8 +3,14 @@ import {
   HISTORY_FETCH_BY_UID_SUSSESS,
   HISTORY_FETCH_ERROR,
   HISTORY_POST,
+  HISTORY_POST_SUCCESS,
+  HISTORY_REMOVE_DRAFT_ID,
 } from "./historyConstants";
-import { History, HistoryFetchPayload } from "./historyType";
+import {
+  History,
+  HistoryFetchPayload,
+  HistoryRemoveDarftPatload,
+} from "./historyType";
 
 export interface HistoryFetch {
   type: typeof HISTORY_FETCH_BY_UID;
@@ -21,12 +27,27 @@ export interface HistoryPost {
   payload: History;
 }
 
+export interface HistoryPostSussess {
+  type: typeof HISTORY_POST_SUCCESS;
+  payload: string;
+}
+
+export interface HistoryRemoveDarftId {
+  type: typeof HISTORY_REMOVE_DRAFT_ID;
+  payload: HistoryRemoveDarftPatload;
+}
+
 export interface HistoryError {
   type: typeof HISTORY_FETCH_ERROR;
   payload: string;
 }
 
-export type historyAction = HistoryFetch | HistoryPost | HistoryError;
+export type historyAction =
+  | HistoryFetch
+  | HistoryPost
+  | HistoryPostSussess
+  | HistoryRemoveDarftId
+  | HistoryError;
 
 export const historyFetch = (payload: HistoryFetchPayload): HistoryFetch => ({
   type: HISTORY_FETCH_BY_UID,
@@ -42,6 +63,18 @@ export const HistoryFetchSussess = (
 
 export const historyPost = (payload: History): HistoryPost => ({
   type: HISTORY_POST,
+  payload: payload,
+});
+
+export const HistoryPostSussess = (payload: string): HistoryPostSussess => ({
+  type: HISTORY_POST_SUCCESS,
+  payload: payload,
+});
+
+export const historyRemoveDarftId = (
+  payload: HistoryRemoveDarftPatload
+): HistoryRemoveDarftId => ({
+  type: HISTORY_REMOVE_DRAFT_ID,
   payload: payload,
 });
 

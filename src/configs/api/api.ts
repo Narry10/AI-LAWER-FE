@@ -15,8 +15,8 @@ import { convertObjectToQueryParams } from 'utils/urlUtils';
 
 const apiRequestConfig: CreateAxiosDefaults<unknown> = {
   baseURL: 'http://127.0.0.1:8000',
-  timeout: REQUEST_TIMEOUT_MS,
   headers: { 'Content-Type': 'application/json' },
+  timeout: 0
 };
 
 export const axiosInstance: AxiosInstance = axios.create(apiRequestConfig);

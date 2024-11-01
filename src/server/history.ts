@@ -1,5 +1,5 @@
 import { db } from "configs/firebase";
-import { CreateHistory, History } from "contexts/history";
+import { CreateHistory, History, UserHistory } from "contexts/history";
 import {
   addDoc,
   collection,
@@ -14,15 +14,15 @@ import {
 } from "firebase/firestore";
 
 class historyService {
-  private collectionRef = collection(db, "histories");
+  private static collectionRef = collection(db, "histories");
 
-  async createHistory(data: History): Promise<CreateHistory> {
+  static async createHistory(data: History): Promise<CreateHistory> {
     const docRef = await addDoc(this.collectionRef, data);
     const createdDoc = await getDoc(docRef);
     return { ...createdDoc.data(), ref_id: docRef.id } as CreateHistory;
   }
 
-  async getHistoryByUid(uid: string): Promise<History[]> {
+  static async getHistoryByUid(uid: string): Promise<History[]> {
     const q = query(
       this.collectionRef,
       where("uid", "==", uid),
@@ -31,17 +31,25 @@ class historyService {
     const snapshot = await getDocs(q);
 
     return snapshot.docs.map(
-      (doc) => ({ ...doc.data(), uid: doc.id }) as History
+      (doc) => ({ ...doc.data(), ref_id: doc.id }) as UserHistory
     );
   }
 
-  async updateHistory(uid: string, data: Partial<History>): Promise<void> {
+  static async updateHistory(
+    uid: string,
+    data: Partial<History>
+  ): Promise<void> {
     const docRef = doc(this.collectionRef, uid);
     await updateDoc(docRef, data);
   }
 
-  async deleteHistory(uid: string): Promise<void> {
+  static async deleteHistory(uid: string): Promise<void> {
     const docRef = doc(this.collectionRef, uid);
+    await deleteDoc(docRef);
+  }
+
+  static async deleteHistoryByRefId(ref_id: string): Promise<void> {
+    const docRef = doc(this.collectionRef, ref_id);
     await deleteDoc(docRef);
   }
 }

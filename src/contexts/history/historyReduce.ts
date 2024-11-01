@@ -1,7 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HistoryState } from "./historyType";
-import { HISTORY_FETCH_BY_UID, HISTORY_FETCH_BY_UID_SUSSESS, HISTORY_FETCH_ERROR } from "./historyConstants";
-import { HistoryError, HistoryFetch, HistoryFetchSussess } from "./historyActions";
+import {
+  HISTORY_FETCH_BY_UID,
+  HISTORY_FETCH_BY_UID_SUSSESS,
+  HISTORY_FETCH_ERROR,
+  HISTORY_POST,
+  HISTORY_POST_SUCCESS,
+  HISTORY_REMOVE_DRAFT_ID,
+} from "./historyConstants";
+import {
+  HistoryError,
+  HistoryFetch,
+  HistoryFetchSussess,
+  HistoryPost,
+  HistoryPostSussess,
+  HistoryRemoveDarftId,
+} from "./historyActions";
 
 const initialState: HistoryState = {
   data: [],
@@ -16,14 +30,34 @@ const historySlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(HISTORY_FETCH_BY_UID, (state, action: HistoryFetch) => {
       state.loading = true;
-    })
-    builder.addCase(HISTORY_FETCH_BY_UID_SUSSESS,(state,action:HistoryFetchSussess)=>{
-      state.data = action.payload;
+    });
+    builder.addCase(
+      HISTORY_FETCH_BY_UID_SUSSESS,
+      (state, action: HistoryFetchSussess) => {
+        state.data = action.payload;
+        state.loading = false;
+      }
+    );
+    builder.addCase(HISTORY_FETCH_ERROR, (state, action: HistoryError) => {
       state.loading = false;
-    })
-    builder.addCase(HISTORY_FETCH_ERROR,(state,action:HistoryError)=>{
-      state.loading = false;
-    })
+    });
+    builder.addCase(HISTORY_POST, (state, action: HistoryPost) => {
+      state.loading = true;
+    });
+    builder.addCase(
+      HISTORY_POST_SUCCESS,
+      (state, action: HistoryPostSussess) => {
+        state.draftId = action.payload;
+        state.loading = false;
+      }
+    );
+    builder.addCase(
+      HISTORY_REMOVE_DRAFT_ID,
+      (state, action: HistoryRemoveDarftId) => {
+        state.draftId = undefined;
+        state.loading = false;
+      }
+    );
   },
 });
 

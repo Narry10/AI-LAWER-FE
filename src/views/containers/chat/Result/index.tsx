@@ -22,9 +22,11 @@ import { useAppDispatch, useAppSelector } from "contexts/hooks";
 import { ViewFactory } from "contexts/question/quesitionType";
 import { questionChangeView } from "contexts/question/questionActions";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { historyPost } from "contexts/history";
+import useToastily from "hooks/useToastily";
 
 const containerVariants = {
   hidden: { opacity: 0, scale: 0.8 },
@@ -46,7 +48,9 @@ const itemVariants = {
 
 const ResultQuestion = () => {
   const [isFavorite, setIsFavorite] = useState<Boolean>(false);
-
+  const showToast = useToastily();
+  const user = useAppSelector((state) => state.user.data);
+  const draftId = useAppSelector((state) => state.history.draftId);
   const formData = useAppSelector((state) => state.question.result.data) || {
     answer: "",
     caseType: "",
@@ -62,9 +66,40 @@ const ResultQuestion = () => {
     dispatch(questionChangeView(ViewFactory.preview));
   };
 
+  const handleFavorite = () => {
+    if (!user?.uid) {
+      showToast({
+        content: "Vui lòng đăng nhập để lưu bản ghi.",
+        type: "error",
+      });
+      return;
+    }
+
+    if(draftId) {
+      showToast({
+        content: "bo thich ban ghi",
+        type: "warning",
+      });
+    }
+
+    const payload = {
+      answer: formData.answer,
+      caseType: formData.caseType,
+      fullName: formData.fullName,
+      phone: formData.phone,
+      question: formData.question,
+      gender: formData.gender,
+      uid: user?.uid ?? "",
+    };
+
+    dispatch(historyPost(payload));
+  };
+
   const handleToggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
+
+  useLayoutEffect(() => {}, []);
 
   return (
     <div className="w-full flex flex-col">
@@ -189,6 +224,7 @@ const ResultQuestion = () => {
                   value={formData.answer}
                   readOnly
                   className="w-full p-2 bg-gray-800 text-white rounded-md"
+                  style={{ whiteSpace: "pre-wrap" }}
                 />
               </Box>
             </Box>
