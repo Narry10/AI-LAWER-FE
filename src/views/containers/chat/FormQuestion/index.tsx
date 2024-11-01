@@ -1,3 +1,4 @@
+import React, { useLayoutEffect, useState } from "react";
 import {
   ArrowBack,
   Description,
@@ -26,8 +27,8 @@ import {
   questionUpdateForm,
 } from "contexts/question/questionActions";
 import { motion } from "framer-motion";
-import React, { useLayoutEffect } from "react";
 import Loading from "views/components/Commons/Loading";
+import { CaseType, caseTypes } from "views/containers/constants/caseTypeMock";
 
 const containerVariants = {
   hidden: { opacity: 0, scale: 0.8 },
@@ -51,19 +52,27 @@ const FormQuestion = () => {
   const formData = useAppSelector((state) => state.question.form.formData);
   const loading = useAppSelector((state) => state.question.result.loading);
   const user = useAppSelector((state) => state.user.data);
-  const error = useAppSelector((state) => state.question.result.error);
   const dispatch = useAppDispatch();
-  
+
+  const [errors, setErrors] = useState({
+    fullName: false,
+    phone: false,
+    description: false,
+    specificSituation: false,
+    gender: false,
+    caseType: false,
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch(questionUpdateForm(name, value));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: false }));
   };
 
   const handleChipClick = (caseType) => {
     dispatch(questionUpdateForm("caseType", caseType));
+    setErrors((prevErrors) => ({ ...prevErrors, caseType: false }));
   };
-
-  const handleNextPage = () => {};
 
   const handleBackPage = () => {
     dispatch(questionChangeView(ViewFactory.preview));
@@ -71,12 +80,28 @@ const FormQuestion = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      questionFetchResult({
-        description: formData.description,
-        specificSituation: formData.specificSituation,
-      })
-    );
+
+    const newErrors = {
+      fullName: !formData.fullName,
+      phone: !formData.phone,
+      description: !formData.description,
+      specificSituation: !formData.specificSituation,
+      gender: !formData.gender,
+      caseType: !formData.caseType,
+    };
+
+    setErrors(newErrors);
+
+    const hasErrors = Object.values(newErrors).some((error) => error);
+
+    if (!hasErrors) {
+      dispatch(
+        questionFetchResult({
+          description: formData.description,
+          specificSituation: formData.specificSituation,
+        })
+      );
+    }
   };
 
   // auto ref user infomation to input
@@ -123,6 +148,8 @@ const FormQuestion = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 fullWidth
+                error={errors.fullName}
+                helperText={errors.fullName && "Họ và tên là bắt buộc"}
               />
             </Box>
             <FormControl component="fieldset">
@@ -152,6 +179,11 @@ const FormQuestion = () => {
                   label="Khác"
                 />
               </RadioGroup>
+              {errors.gender && (
+                <Typography variant="body2" color="error">
+                  Giới tính là bắt buộc
+                </Typography>
+              )}
             </FormControl>
             <Box className="flex items-center gap-2">
               <Phone className="text-primary-color" />
@@ -164,6 +196,8 @@ const FormQuestion = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 fullWidth
+                error={errors.phone}
+                helperText={errors.phone && "Số điện thoại là bắt buộc"}
               />
             </Box>
           </Box>
@@ -181,8 +215,14 @@ const FormQuestion = () => {
                 value={formData.description}
                 onChange={handleChange}
                 className="w-full p-2 bg-gray-800 text-white rounded-md"
+                style={{ borderColor: errors.description ? "red" : "inherit" }}
               />
             </Box>
+            {errors.description && (
+              <Typography variant="body2" color="error">
+                Mô tả vụ việc là bắt buộc
+              </Typography>
+            )}
           </Box>
           <Box className="flex flex-col gap-2">
             <FormLabel component="legend" className="text-white">
@@ -198,26 +238,41 @@ const FormQuestion = () => {
                 value={formData.specificSituation}
                 onChange={handleChange}
                 className="w-full p-2 bg-gray-800 text-white rounded-md"
+                style={{
+                  borderColor: errors.specificSituation ? "red" : "inherit",
+                }}
               />
             </Box>
+            {errors.specificSituation && (
+              <Typography variant="body2" color="error">
+                Tình huống cụ thể là bắt buộc
+              </Typography>
+            )}
           </Box>
           <Box className="flex flex-col gap-2">
-            <FormLabel component="legend" className="text-white">
-              Loại vụ việc
-            </FormLabel>
-            <Box className="flex items-center gap-2">
-              <Chip
-                label="Đất đai"
-                color={formData.caseType === "Đất đai" ? "primary" : "default"}
-                onClick={() => handleChipClick("Đất đai")}
-              />
-              <Chip
-                label="Lao động"
-                color={
-                  formData.caseType === "Lao động" ? "secondary" : "default"
-                }
-                onClick={() => handleChipClick("Lao động")}
-              />
+            <Box className="flex flex-col gap-2">
+              <FormLabel component="legend" className="text-white">
+                Loại vụ việc
+              </FormLabel>
+              <Box className="flex items-center gap-2">
+                {caseTypes.map((caseType: CaseType) => (
+                  <Chip
+                    key={caseType.label}
+                    label={caseType.label}
+                    color={
+                      formData.caseType === caseType.label
+                        ? caseType.color
+                        : "default"
+                    }
+                    onClick={() => handleChipClick(caseType.label)}
+                  />
+                ))}
+              </Box>
+              {errors.caseType && (
+                <Typography variant="body2" color="error">
+                  Loại vụ việc là bắt buộc
+                </Typography>
+              )}
             </Box>
           </Box>
           <div className="mt-auto flex justify-between items-center">

@@ -1,7 +1,7 @@
 import { auth } from "configs/firebase";
 import { authLogged } from "contexts/auth";
 import { useAppDispatch, useAppSelector } from "contexts/hooks";
-import { IUser, userFetchMe } from "contexts/user";
+import { IUser, userFetchMe, userLogOut } from "contexts/user";
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import { Navigate, Route, Routes, type RouteObject } from "react-router-dom";
 import Loading from "views/components/Commons/Loading";
@@ -96,7 +96,6 @@ const ManageView = () => {
 export default function Router() {
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
-  const isLogin = useAppSelector((state) => state.auth.isLogin);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -113,6 +112,8 @@ export default function Router() {
 
         dispatch(userFetchMe(mapUser));
         dispatch(authLogged());
+      } else {
+        dispatch(userLogOut());
       }
       setLoading(false);
     });

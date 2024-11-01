@@ -19,7 +19,7 @@ import {
 } from "./quesitionType";
 
 const initialState: QuestionViewState = {
-  view: ViewFactory.result,
+  view: ViewFactory.preview,
   loading: false,
   error: undefined,
 };
@@ -47,9 +47,9 @@ const initialFormState: QuestionFormState = {
     description: "",
     specificSituation: "",
     caseType: "",
-    fullName: "",
+    fullName: " ",
     gender: "",
-    phone: "0123456789",
+    phone: "",
   },
 };
 
@@ -72,12 +72,12 @@ export const questionFormReducer = questionFormSlice.reducer;
 
 const initialResultState: QuestionResultState = {
   data: {
-    fullName: "Harry",
-    phone: "0886314366",
-    answer: "Căn cứ Điều 59 Luật Hôn nhân và gia đình năm 2014 quy định: - Vợ, chồng hoặc cả hai người có quyền yêu cầu Tòa án giải quyết ly hôn. - Cha, mẹ, người thân thích khác có quyền yêu cầu Tòa án giải quyết ly hôn khi một bên vợ, chồng do bị bệnh tâm thần hoặc mắc bệnh khác mà không thể nhận thức, làm chủ được hành vi của mình, đồng thời là nạn nhân của bạo lực gia đình do chồng, vợ của họ gây ra làm ảnh hưởng nghiêm trọng đến tính mạng, sức khỏe, tinh thần của họ. - Chồng không có quyền yêu cầu ly hôn trong trường hợp vợ đang có thai, sinh con hoặc đang nuôi con dưới 12 tháng tuổi. - Trong trường hợp vợ đang có thai, sinh con hoặc đang nuôi con dưới 12 tháng tuổi thì chồng không có quyền yêu cầu ly hôn. - Trong trường hợp chồng đang có thai, sinh con hoặc đang nuôi con dưới 12 tháng tuổi thì",
-    question: "Mẹ tôi và dượng tôi ở với nhau gần 10 năm nhưng không đăng ký kết hôn Nay dượng tôi phản bội mẹ tôi, có vợ mới và muốn chia đôi số tài sản, trong đó tiền vốn là của tôi bỏ ra cho mẹ tôi làm ăn. Ông ta đòi làm đơn kiện nếu mẹ tôi không đồng ý chia đôi số tài sản hiện tại. Trường hợp này phải giải quyết như thế nào? (Số tiền tôi đưa mẹ làm ăn không có giấy tờ gì chứng minh cả)",
-    gender: "female",
-    caseType: "Đất đai",
+    fullName: "",
+    phone: "",
+    answer: "",
+    question: "",
+    gender: "",
+    caseType: "",
   },
   loading: false,
 };

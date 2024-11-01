@@ -17,39 +17,43 @@ class historyService {
   private static collectionRef = collection(db, "histories");
 
   static async createHistory(data: History): Promise<CreateHistory> {
-    const docRef = await addDoc(this.collectionRef, data);
+    const docRef = await addDoc(historyService.collectionRef, data);
     const createdDoc = await getDoc(docRef);
     return { ...createdDoc.data(), ref_id: docRef.id } as CreateHistory;
   }
 
   static async getHistoryByUid(uid: string): Promise<History[]> {
     const q = query(
-      this.collectionRef,
+      historyService.collectionRef,
       where("uid", "==", uid),
-      orderBy("create_at", "desc")
     );
     const snapshot = await getDocs(q);
 
-    return snapshot.docs.map(
-      (doc) => ({ ...doc.data(), ref_id: doc.id }) as UserHistory
-    );
+    return snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        ...data,
+        ref_id: doc.id,
+        create_at: data.create_at.toDate(), 
+      } as UserHistory;
+    }).sort((a, b) => (b?.create_at?.getTime?.() ?? 0) - (a?.create_at?.getTime?.() ?? 0));
   }
 
   static async updateHistory(
     uid: string,
     data: Partial<History>
   ): Promise<void> {
-    const docRef = doc(this.collectionRef, uid);
+    const docRef = doc(historyService.collectionRef, uid);
     await updateDoc(docRef, data);
   }
 
   static async deleteHistory(uid: string): Promise<void> {
-    const docRef = doc(this.collectionRef, uid);
+    const docRef = doc(historyService.collectionRef, uid);
     await deleteDoc(docRef);
   }
 
   static async deleteHistoryByRefId(ref_id: string): Promise<void> {
-    const docRef = doc(this.collectionRef, ref_id);
+    const docRef = doc(historyService.collectionRef, ref_id);
     await deleteDoc(docRef);
   }
 }

@@ -13,13 +13,12 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
-  Grid,
   Chip,
 } from "@mui/material";
 import { authLoginGoogle, AuthLogout } from "contexts/auth";
-import StarIcon from "@mui/icons-material/Star";
 import WarningIcon from "@mui/icons-material/Warning";
 import LogoutIcon from "@mui/icons-material/Logout";
+import AvatarDE from "assets/images/avatar.webp";
 
 export const NAVBAR_ITEMS = [
   {
@@ -33,10 +32,10 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const isLogin = useAppSelector((state) => state.auth.isLogin);
-  const userAvatar = useAppSelector((state) => state.user.data?.photoURL);
+  const userAvatar = useAppSelector((state) => state.user.data?.photoURL) || AvatarDE;
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-
+  
   const handleLoginWithGoogle = () => {
     dispatch(authLoginGoogle());
   };
@@ -48,6 +47,7 @@ const Header = () => {
   const handleClickAway = () => {
     setOpen(false);
   };
+
   const handleLogout = () => {
     dispatch(AuthLogout());
   };
@@ -84,7 +84,7 @@ const Header = () => {
         </ul>
         {isLogin ? (
           <div style={{ position: "relative" }}>
-            <Avatar src={userAvatar || ""} onClick={handleAvatarClick} />
+            <Avatar src={userAvatar || AvatarDE} onClick={handleAvatarClick} />
             {open && (
               <ClickAwayListener onClickAway={handleClickAway}>
                 <Card
@@ -133,10 +133,11 @@ const Header = () => {
                           </Typography>
                         }
                         secondary={
-                          <>
+                          <React.Fragment>
                             <Typography
                               variant="body2"
                               sx={{ color: "text.primary", mt: 0.5 }}
+                              component="span"
                             >
                               Unlock exclusive features and enjoy an ad-free
                               experience by upgrading to our premium plan.
@@ -153,7 +154,7 @@ const Header = () => {
                                 justifyContent: "center",
                               }}
                             />
-                          </>
+                          </React.Fragment>
                         }
                       />
                     </ListItemButton>

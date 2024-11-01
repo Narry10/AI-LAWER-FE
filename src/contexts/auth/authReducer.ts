@@ -1,11 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthDetailState } from "./authTypes";
 import {
-  AUTH_FETCH_EMAIL_LOGIN,
   AUTH_LOGGED,
-  AUTH_LOGOUT,
+  AUTH_LOGOUT
 } from "./authConstants";
-import { authAction } from "./authActions";
+import { AuthDetailState } from "./authTypes";
 
 const initialState: AuthDetailState = {
   isLogin: false,

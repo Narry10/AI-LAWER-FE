@@ -5,6 +5,8 @@ import {
   Person,
   Phone,
 } from "@mui/icons-material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import {
   Box,
   Chip,
@@ -18,15 +20,17 @@ import {
 } from "@mui/material";
 import Textarea from "@mui/material/TextareaAutosize";
 import Logo from "assets/images/LoadingIcon.svg";
+import {
+  historyDraftReset,
+  historyPost,
+  historyRemoveDarftId,
+} from "contexts/history";
 import { useAppDispatch, useAppSelector } from "contexts/hooks";
 import { ViewFactory } from "contexts/question/quesitionType";
 import { questionChangeView } from "contexts/question/questionActions";
 import { motion } from "framer-motion";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { historyPost } from "contexts/history";
 import useToastily from "hooks/useToastily";
+import React, { useEffect, useState } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0, scale: 0.8 },
@@ -66,7 +70,7 @@ const ResultQuestion = () => {
     dispatch(questionChangeView(ViewFactory.preview));
   };
 
-  const handleFavorite = () => {
+  const handleToggleFavorite = () => {
     if (!user?.uid) {
       showToast({
         content: "Vui lòng đăng nhập để lưu bản ghi.",
@@ -74,12 +78,18 @@ const ResultQuestion = () => {
       });
       return;
     }
-
-    if(draftId) {
+    setIsFavorite(!isFavorite);
+    if (draftId) {
+      dispatch(
+        historyRemoveDarftId({
+          draftId: draftId,
+        })
+      );
       showToast({
-        content: "bo thich ban ghi",
+        content: "Bản ghi nháp đã được bỏ thích.",
         type: "warning",
       });
+      return;
     }
 
     const payload = {
@@ -93,13 +103,18 @@ const ResultQuestion = () => {
     };
 
     dispatch(historyPost(payload));
+    showToast({
+      content: "Bản ghi lưu thành công.",
+      type: "success",
+    });
   };
 
-  const handleToggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-  };
-
-  useLayoutEffect(() => {}, []);
+  useEffect(() => {
+    return () => {
+      // remove draftId when unmounting DOM
+      dispatch(historyDraftReset());
+    };
+  }, []);
 
   return (
     <div className="w-full flex flex-col">

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HistoryState } from "./historyType";
 import {
+  HISTOR_DRAFT_RESET,
   HISTORY_FETCH_BY_UID,
   HISTORY_FETCH_BY_UID_SUSSESS,
   HISTORY_FETCH_ERROR,
@@ -58,6 +59,9 @@ const historySlice = createSlice({
         state.loading = false;
       }
     );
+    builder.addCase(HISTOR_DRAFT_RESET, (state) => {
+      state.draftId = undefined;
+    });
   },
 });
 

@@ -1,10 +1,9 @@
 import { call } from "redux-saga/effects";
 import historyService from "server/history";
-import {
-    HistoryRemoveDarftId
-} from "../historyActions";
+import { HistoryRemoveDarftId } from "../historyActions";
 
-export function* handleHistoryPostSaga(action: HistoryRemoveDarftId) {
+
+export function* handleHistoryRemoveDraftSaga(action: HistoryRemoveDarftId) {
   try {
     const { draftId } = action.payload;
 

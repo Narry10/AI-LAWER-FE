@@ -1,4 +1,5 @@
 import {
+  HISTOR_DRAFT_RESET,
   HISTORY_FETCH_BY_UID,
   HISTORY_FETCH_BY_UID_SUSSESS,
   HISTORY_FETCH_ERROR,
@@ -42,11 +43,16 @@ export interface HistoryError {
   payload: string;
 }
 
+export interface HistoryDraftReset {
+  type: typeof HISTOR_DRAFT_RESET;
+}
+
 export type historyAction =
   | HistoryFetch
   | HistoryPost
   | HistoryPostSussess
   | HistoryRemoveDarftId
+  | HistoryDraftReset
   | HistoryError;
 
 export const historyFetch = (payload: HistoryFetchPayload): HistoryFetch => ({
@@ -81,4 +87,8 @@ export const historyRemoveDarftId = (
 export const historyError = (payload: string): HistoryError => ({
   type: HISTORY_FETCH_ERROR,
   payload: payload,
+});
+
+export const historyDraftReset = (): HistoryDraftReset => ({
+  type: HISTOR_DRAFT_RESET,
 });
