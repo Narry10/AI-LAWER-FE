@@ -4,10 +4,12 @@ import Feedback from "views/components/UI/Home/Feedback";
 import { feedbackMock, productMock } from "./constants/mockdata";
 import ProductSection from "views/components/UI/Home/ProductSection";
 import ContactSection from "views/components/UI/Home/ContactSection";
+import LawFirmSlider from "views/containers/LawFirmSlider";
 
 const Home = () => {
   return <div>
     <BannerSection />
+    <LawFirmSlider />
     {
         productMock && productMock.map((product, index) => (
           <ProductSection key={`product__${index}`} {...product}/>

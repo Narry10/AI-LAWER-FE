@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
 import { History } from 'contexts/history';
 import { Box, Typography, IconButton, Collapse, Chip } from '@mui/material';
-import { Person, Event, Description, ExpandMore, ExpandLess, Phone, Info, Wc } from '@mui/icons-material';
+import { Person, Event, Description, ExpandMore, ExpandLess, Phone, Info, Wc, Share, ContentCopy, Telegram, Twitter } from '@mui/icons-material';
 
-interface HistoryCardProps extends History {}
+interface HistoryCardProps extends History {
+  ref_id: string;
+}
 
-const HistoryCard: React.FC<HistoryCardProps> = ({ answer, caseType, fullName, gender, phone, question, uid, create_at }) => {
+const HistoryCard: React.FC<HistoryCardProps> = ({ answer, caseType, fullName, gender, phone, question, uid, create_at, ref_id }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const currentUrl = window.location.origin;
+  const shareUrl = `${currentUrl}/doc/${ref_id}`;
+
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(shareUrl);
+    alert('URL copied to clipboard');
+  };
+
+  const handleShareTelegram = () => {
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}`, '_blank');
+  };
+
+  const handleShareTwitter = () => {
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`, '_blank');
   };
 
   return (
@@ -34,9 +52,20 @@ const HistoryCard: React.FC<HistoryCardProps> = ({ answer, caseType, fullName, g
 
         <Box className="flex justify-between items-center">
           <Chip label={caseType} className="text-white" />
-          <IconButton onClick={handleExpandClick} className="text-white">
-            {expanded ? <ExpandLess /> : <ExpandMore />}
-          </IconButton>
+          <Box className="flex items-center gap-2">
+            <IconButton onClick={handleShareTelegram} className="text-white">
+              <Telegram />
+            </IconButton>
+            <IconButton onClick={handleShareTwitter} className="text-white">
+              <Twitter />
+            </IconButton>
+            <IconButton onClick={handleCopyUrl} className="text-white">
+              <ContentCopy />
+            </IconButton>
+            <IconButton onClick={handleExpandClick} className="text-white">
+              {expanded ? <ExpandLess /> : <ExpandMore />}
+            </IconButton>
+          </Box>
         </Box>
 
         <Collapse in={expanded} timeout="auto" className='p-2' unmountOnExit>

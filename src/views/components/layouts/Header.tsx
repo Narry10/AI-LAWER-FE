@@ -26,6 +26,11 @@ export const NAVBAR_ITEMS = [
     name: "Chat Service",
     path: RouterPath.CHAT,
   },
+  {
+    id: 2,
+    name: "Admin",
+    path: RouterPath.ADMIN,
+  },
 ];
 
 const Header = () => {
@@ -185,7 +190,7 @@ const Header = () => {
             variant="outlined"
             size="small"
           >
-            Login
+            Login Now!
           </Button>
         )}
       </div>

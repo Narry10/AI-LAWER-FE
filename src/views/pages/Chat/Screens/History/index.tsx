@@ -45,6 +45,7 @@ const History = () => {
       </Box>
     );
   }
+console.log(historys);
 
   return (
     <div className="w-full flex flex-col">
@@ -75,7 +76,7 @@ const History = () => {
         ) : (
           historys.map((history, index) => (
             <motion.div key={index} variants={itemVariants} className="mb-2">
-              <HistoryCard {...history} />
+              <HistoryCard {...history} ref_id={history?.ref_id || ''} />
             </motion.div>
           ))
         )}
