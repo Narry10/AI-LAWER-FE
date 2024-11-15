@@ -1,5 +1,18 @@
-import { CREATE_BUSINESS_REQUEST, CREATE_BUSINESS_SUCCESS, DELETE_BUSINESS_REQUEST, DELETE_BUSINESS_SUCCESS, FETCH_BUSINESS_REQUEST, FETCH_BUSINESS_SUCCESS } from "./businessConstants";
-import { Office, OfficeDeletePayload } from "./businessType";
+import {
+  CREATE_BUSINESS_REQUEST,
+  CREATE_BUSINESS_SUCCESS,
+  DELETE_BUSINESS_REQUEST,
+  DELETE_BUSINESS_SUCCESS,
+  FETCH_BUSINESS_REQUEST,
+  FETCH_BUSINESS_SUCCESS,
+  FETCH_CLIENT_BUSINESS_REQUEST,
+  FETCH_CLIENT_BUSINESS_SUCCESS,
+} from "./businessConstants";
+import {
+  Office,
+  OfficeClientOfficePayload,
+  OfficeDeletePayload,
+} from "./businessType";
 
 export interface OfficeFetch {
   type: typeof FETCH_BUSINESS_REQUEST;
@@ -9,7 +22,6 @@ export interface OfficeSusseess {
   type: typeof FETCH_BUSINESS_SUCCESS;
   payload: Office[];
 }
-
 
 export interface OfficeCreate {
   type: typeof CREATE_BUSINESS_REQUEST;
@@ -22,14 +34,32 @@ export interface OfficeCreateSuccess {
 
 export interface OfficeDelete {
   type: typeof DELETE_BUSINESS_REQUEST;
-  payload: OfficeDeletePayload
+  payload: OfficeDeletePayload;
 }
 
 export interface OfficeDeleteSuccess {
   type: typeof DELETE_BUSINESS_SUCCESS;
 }
 
-export type OfficeAction = OfficeFetch;
+export interface OfficeClientFetch {
+  type: typeof FETCH_CLIENT_BUSINESS_REQUEST;
+  payload: OfficeClientOfficePayload;
+}
+
+export interface OfficeClientSusseess {
+  type: typeof FETCH_CLIENT_BUSINESS_SUCCESS;
+  payload: Office;
+}
+
+export type OfficeAction =
+  | OfficeFetch
+  | OfficeSusseess
+  | OfficeCreate
+  | OfficeCreateSuccess
+  | OfficeDelete
+  | OfficeDeleteSuccess
+  | OfficeClientFetch
+  | OfficeClientSusseess;
 
 export const officeFetch = (): OfficeFetch => ({
   type: FETCH_BUSINESS_REQUEST,
@@ -51,9 +81,21 @@ export const officeCreateSuccess = (): OfficeCreateSuccess => ({
 
 export const officeDelete = (payload: OfficeDeletePayload): OfficeDelete => ({
   type: DELETE_BUSINESS_REQUEST,
-  payload: payload
+  payload: payload,
 });
 
-export const OfficeDeleteSuccess = (): OfficeDeleteSuccess => ({
+export const officeDeleteSuccess = (): OfficeDeleteSuccess => ({
   type: DELETE_BUSINESS_SUCCESS,
+});
+
+export const officeClientFetch = (
+  payload: OfficeClientOfficePayload
+): OfficeClientFetch => ({
+  type: FETCH_CLIENT_BUSINESS_REQUEST,
+  payload,
+});
+
+export const officeClientSussess = (payload: Office): OfficeClientSusseess => ({
+  type: FETCH_CLIENT_BUSINESS_SUCCESS,
+  payload: payload,
 });

@@ -17,6 +17,7 @@ import Home from "views/pages/home";
 import DashboardLayoutScreen from "../views/pages/Chat";
 import RouterPath from "./routesContants";
 import UpdateBusiness from "views/pages/Admin/screens/Update";
+import OfficeScreen from "views/pages/Office";
 
 const LoadingView = () => {
   return (
@@ -88,6 +89,14 @@ const ManageView = () => {
       {
         path: RouterPath.ADMIN_BUSINESS_DETAIL,
         element: <UpdateBusiness />,
+      },
+      {
+        path: RouterPath.OFFICE,
+        element: (
+          <DefaultLayout>
+            <OfficeScreen />
+          </DefaultLayout>
+        ),
       },
     ],
     []

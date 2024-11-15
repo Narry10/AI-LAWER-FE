@@ -14,7 +14,7 @@ import {
 } from "./question/questionReduce";
 import { historyReducer } from "./history";
 import { documentReducer } from "./document";
-import { officeReducer } from "./business/businessReduce";
+import { clientOfficeReducer, officeReducer } from "./business/businessReduce";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -25,8 +25,9 @@ const rootQuestReducer = combineReducers({
 });
 
 const rootBussinessReducer = combineReducers({
-  office : officeReducer
-})
+  office: officeReducer,
+  client: clientOfficeReducer,
+});
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -34,7 +35,7 @@ export const rootReducer = combineReducers({
   question: rootQuestReducer,
   history: historyReducer,
   document: documentReducer,
-  business: rootBussinessReducer
+  business: rootBussinessReducer,
 });
 
 const rootMiddleware = [

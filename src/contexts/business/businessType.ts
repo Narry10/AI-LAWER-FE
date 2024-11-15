@@ -11,11 +11,18 @@ export interface Office {
   create_at: Date;
 }
 
- export interface OfficeDeletePayload {
+export interface OfficePayload {
   ref_id: string;
 }
+
+export interface OfficeDeletePayload extends OfficePayload {}
+
+export interface OfficeClientOfficePayload extends OfficePayload {}
 
 export interface OfficeState extends CommonState {
   data: Office[];
 }
 
+export interface ClientOfficeState extends CommonState {
+  data: Office | null;
+}
