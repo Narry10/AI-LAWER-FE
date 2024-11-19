@@ -14,23 +14,22 @@ import {
   ListItemText,
   Typography,
   Chip,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import { authLoginGoogle, AuthLogout } from "contexts/auth";
 import WarningIcon from "@mui/icons-material/Warning";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AvatarDE from "assets/images/avatar.webp";
+import useAdmin from "hooks/useAdmin";
 
-export const NAVBAR_ITEMS = [
+const NAVBAR_ITEMS = [
   {
     id: 1,
     name: "Chat Service",
     path: RouterPath.CHAT,
   },
-  {
-    id: 2,
-    name: "Admin",
-    path: RouterPath.ADMIN,
-  },
+  // Admin item will be conditionally rendered
 ];
 
 const Header = () => {
@@ -40,7 +39,8 @@ const Header = () => {
   const userAvatar = useAppSelector((state) => state.user.data?.photoURL) || AvatarDE;
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  
+  const admin = useAdmin();
+
   const handleLoginWithGoogle = () => {
     dispatch(authLoginGoogle());
   };
@@ -86,6 +86,20 @@ const Header = () => {
               </li>
             );
           })}
+          {admin && (
+            <li
+              key="admin"
+              className={`navbar-item ${location.pathname === RouterPath.ADMIN ? "btn--active" : ""}`}
+            >
+              <Button
+                to={RouterPath.ADMIN}
+                className="navbar-item-link"
+                variant="text"
+              >
+                Admin
+              </Button>
+            </li>
+          )}
         </ul>
         {isLogin ? (
           <div style={{ position: "relative" }}>

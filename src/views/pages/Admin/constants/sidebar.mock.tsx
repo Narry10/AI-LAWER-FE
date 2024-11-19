@@ -20,6 +20,11 @@ export const adminCategories: Navigation = [
     title: "Tạo văn phòng",
     icon: <DashboardIcon />,
   },
+  {
+    segment: RouterPath.ADMIN_VIEW_DB,
+    title: "Quyền Admin",
+    icon: <DashboardIcon />,
+  },
 ];
 
 export const demoTheme = createTheme({

@@ -18,6 +18,7 @@ import DashboardLayoutScreen from "../views/pages/Chat";
 import RouterPath from "./routesContants";
 import UpdateBusiness from "views/pages/Admin/screens/Update";
 import OfficeScreen from "views/pages/Office";
+import AdminView from "views/pages/Admin/screens/AdminView";
 
 const LoadingView = () => {
   return (
@@ -83,6 +84,10 @@ const ManageView = () => {
           {
             path: RouterPath.ADMIN_BUSINESS,
             element: <CreateBusiness />,
+          },
+          {
+            path: RouterPath.ADMIN_VIEW ,
+            element: <AdminView/>,
           },
         ],
       },

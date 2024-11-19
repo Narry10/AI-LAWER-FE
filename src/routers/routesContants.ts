@@ -21,11 +21,13 @@ export default class RouterPath {
 	static readonly ADMIN_BUSINESS= `${RouterPath.ADMIN}/create`;
 	static readonly ADMIN_BUSINESS_LIST = `${RouterPath.ADMIN}/list`;
 	static readonly ADMIN_BUSINESS_DETAIL = `${RouterPath.ADMIN}/doc/:ref_id`;
+	static readonly ADMIN_VIEW = `${RouterPath.ADMIN}/view`;
 
 	// use admin sidebar 
 	static readonly ADMIN_DB = 'admin';
 	static readonly ADMIN_BUSINESS_DB = `${RouterPath.ADMIN_DB}/create`;
 	static readonly ADMIN_BUSINESS_LIST_DB = `${RouterPath.ADMIN_DB}/list`;
 	static readonly ADMIN_BUSINESS_DETAIL_DB = `${RouterPath.ADMIN_DB}/doc/:ref_id`;
+	static readonly ADMIN_VIEW_DB = `${RouterPath.ADMIN_DB}/view`;
   }
   
