@@ -10,18 +10,15 @@ import { useAppDispatch } from "contexts/hooks";
 const CreateBusiness: React.FC = () => {
   const [office, setOffice] = useState<Office>({
     name: "Văn phòng luật ABC",
-    image:
-      "https://fdvn.vn/wp-content/uploads/2022/05/luu-ban-nhap-tu-dong-1-5.png",
+    image: "https://fdvn.vn/wp-content/uploads/2022/05/luu-ban-nhap-tu-dong-1-5.png",
     action: "Liên hệ ngay",
-    description:
-      "Văn phòng luật ABC chuyên cung cấp dịch vụ pháp lý chuyên nghiệp và bảo vệ quyền lợi của bạn. Liên hệ: 099876877.",
+    description: "Văn phòng luật ABC chuyên cung cấp dịch vụ pháp lý chuyên nghiệp và bảo vệ quyền lợi của bạn. Liên hệ: 099876877.",
     priority: 1,
     body: "",
     create_at: new Date(),
   });
 
   const dispatch = useAppDispatch();
-
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,20 +27,6 @@ const CreateBusiness: React.FC = () => {
       ...prevOffice,
       [name]: name === "priority" ? Number(value) : value,
     }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setOffice((prevOffice) => ({
-          ...prevOffice,
-          image: reader.result as string,
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleEditorChange = useCallback((state: EditorState) => {
@@ -75,11 +58,11 @@ const CreateBusiness: React.FC = () => {
         fullWidth
         required
       />
-      {/* <TextField
-        label="Image"
+      <TextField
+        label="Image URL"
         name="image"
-        type="file"
-        onChange={handleFileChange}
+        value={office.image}
+        onChange={handleChange}
         fullWidth
         required
         InputLabelProps={{
@@ -92,7 +75,7 @@ const CreateBusiness: React.FC = () => {
           alt="Preview"
           style={{ width: "100%", height: "20vh", objectFit: "contain" }}
         />
-      )} */}
+      )}
       <TextField
         label="Action"
         name="action"
@@ -129,7 +112,6 @@ const CreateBusiness: React.FC = () => {
           onEditorStateChange={handleEditorChange}
         />
       </div>
-
       <TextField
         label="Create At"
         name="create_at"
