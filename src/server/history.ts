@@ -39,6 +39,22 @@ class historyService {
     }).sort((a, b) => (b?.create_at?.getTime?.() ?? 0) - (a?.create_at?.getTime?.() ?? 0));
   }
 
+  static async getHistoryByRefId(ref_id: string): Promise<History | null> {
+    const docRef = doc(historyService.collectionRef, ref_id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return {
+        ...data,
+        ref_id: docSnap.id,
+        create_at: data.create_at.toDate(),
+      } as UserHistory;
+    } else {
+      return null;
+    }
+  }
+
   static async updateHistory(
     uid: string,
     data: Partial<History>

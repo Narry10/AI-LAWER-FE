@@ -7,27 +7,26 @@ import { Navigate, Route, Routes, type RouteObject } from "react-router-dom";
 import Loading from "views/components/Commons/Loading";
 import Footer from "views/components/layouts/Footer";
 import Header from "views/components/layouts/Header";
+import DashboardAdminLayoutScreen from "views/pages/Admin";
+import CreateBusiness from "views/pages/Admin/screens/Create";
+import ListBusiness from "views/pages/Admin/screens/List";
+import History from "views/pages/Chat/Screens/History";
 import Question from "views/pages/Chat/Screens/Question";
+import DocumentDetail from "views/pages/DocumentDetail";
 import Home from "views/pages/home";
 import DashboardLayoutScreen from "../views/pages/Chat";
 import RouterPath from "./routesContants";
-import History from "views/pages/Chat/Screens/History";
+import UpdateBusiness from "views/pages/Admin/screens/Update";
+import OfficeScreen from "views/pages/Office";
+import AdminView from "views/pages/Admin/screens/AdminView";
 
 const LoadingView = () => {
-  return <div className="h-screen flex items-center justify-center">
-    <Loading className="w-30 h-30"/>
-  </div>;
+  return (
+    <div className="h-screen flex items-center justify-center">
+      <Loading className="w-30 h-30" />
+    </div>
+  );
 };
-
-const getDynamicRouter = (
-  deskTop: ReactNode,
-  mobile: ReactNode,
-  isMobile: boolean
-) => <div>{isMobile ? mobile : deskTop}</div>;
-
-const DashboardLayout = ({ children }: { children: ReactNode }) => (
-  <div>{children}</div>
-);
 
 const DefaultLayout = ({ children }: { children: ReactNode }) => (
   <div>
@@ -62,9 +61,47 @@ const ManageView = () => {
           },
           {
             path: `${RouterPath.CHAT_HISTORY}`,
-            element: <History/>
+            element: <History />,
           },
         ],
+      },
+      {
+        path: RouterPath.DOCUMENT,
+        element: (
+          <DefaultLayout>
+            <DocumentDetail />
+          </DefaultLayout>
+        ),
+      },
+      {
+        path: RouterPath.ADMIN,
+        element: <DashboardAdminLayoutScreen />,
+        children: [
+          {
+            path: RouterPath.ADMIN,
+            element: <ListBusiness />,
+          },
+          {
+            path: RouterPath.ADMIN_BUSINESS,
+            element: <CreateBusiness />,
+          },
+          {
+            path: RouterPath.ADMIN_VIEW ,
+            element: <AdminView/>,
+          },
+        ],
+      },
+      {
+        path: RouterPath.ADMIN_BUSINESS_DETAIL,
+        element: <UpdateBusiness />,
+      },
+      {
+        path: RouterPath.OFFICE,
+        element: (
+          <DefaultLayout>
+            <OfficeScreen />
+          </DefaultLayout>
+        ),
       },
     ],
     []
@@ -100,8 +137,6 @@ export default function Router() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
-        
         const mapUser: IUser = {
           displayName: user.displayName,
           email: user.email,

@@ -5,6 +5,7 @@ import { CommonState } from "contexts/types";
 export interface History extends Result {
   uid: string;
   create_at?: Date;
+  ref_id?: string;
 }
 
 export interface CreateHistory extends History {
@@ -25,4 +26,3 @@ export interface HistoryState extends CommonState {
   draftId?: string;
   data: History[];
 }
-

@@ -7,3 +7,4 @@ export interface IUser {
   email: string | null;
   photoURL: string | null;
 }
+
