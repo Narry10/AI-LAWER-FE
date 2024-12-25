@@ -36,7 +36,7 @@ To set up the project locally, follow these steps:
      ```
 3. Once the server is up and running, you can access the application by navigating to:
 [  ```bash
-   (http://localhost:3000)
-     ```](http://localhost:3000
+   http://localhost:3000
+     ```]
 )
 
