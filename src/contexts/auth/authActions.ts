@@ -1,3 +1,4 @@
+import { UserProfile } from "server/userService";
 import { AUTH_FETCH_EMAIL_LOGIN, AUTH_FETCH_GOOGLE_LOGIN, AUTH_LOGGED, AUTH_LOGOUT, AUTH_SIGNUP } from "./authConstants";
 
 import { authLogin, authSignUp } from "./authTypes";
@@ -42,7 +43,7 @@ export const authLoginGoogle = (): AuthGoogleLogin => ({
   type: AUTH_FETCH_GOOGLE_LOGIN
 });
 
-export const authLogged = (): AuthLogged => ({
+export const authLogged = (userProfile: UserProfile | null): AuthLogged => ({
   type: AUTH_LOGGED
 });
 

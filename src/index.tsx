@@ -1,12 +1,16 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import * as ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import  './assets/styles/styles.scss';
+import { AuthProvider } from "./contexts/AuthContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-root.render(<App />);
+root.render(
+  <AuthProvider>
+    <App />
+  </AuthProvider>
+);
 
 reportWebVitals();
