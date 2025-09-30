@@ -59,13 +59,17 @@ const Posts: React.FC = () => {
     }
   };
 
+  const reload = async () => {
+    if (dateRange && dateRange[0] && dateRange[1]) {
+      await loadPosts(dateRange[0].toDate(), dateRange[1].toDate());
+    } else {
+      await loadPosts();
+    }
+  };
+
   /** Fetch khi đổi site hoặc date range */
   useEffect(() => {
-    if (dateRange && dateRange[0] && dateRange[1]) {
-      loadPosts(dateRange[0].toDate(), dateRange[1].toDate());
-    } else {
-      loadPosts();
-    }
+    reload();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteId, dateRange]);
 
@@ -81,11 +85,11 @@ const Posts: React.FC = () => {
     setModalOpen(true);
   };
 
-  /** Xóa */
+  /** Xóa (refetch sau khi xóa) */
   const handleDelete = async (post: PostMeta) => {
     try {
       await deletePost(post.id);
-      setPosts((prev) => prev.filter((p) => p.id !== post.id));
+      await reload();
       message.success("Deleted post");
     } catch (err) {
       console.error(err);
@@ -93,27 +97,24 @@ const Posts: React.FC = () => {
     }
   };
 
-  /** Lưu (thêm/sửa) */
+  /** Lưu (thêm/sửa) → refetch, đóng modal */
   const handleModalOk = async () => {
     try {
       const values = await form.validateFields();
       if (editingPost) {
         await updatePost(editingPost.id, values);
-        setPosts((prev) =>
-          prev.map((p) => (p.id === editingPost.id ? { ...editingPost, ...values } : p))
-        );
         message.success("Updated post");
       } else {
-        const id = await addPost(values);
-        setPosts((prev) => [...prev, { id, ...values } as PostMeta]);
+        await addPost(values);
         message.success("Added post");
       }
+      await reload();
       setModalOpen(false);
       setEditingPost(null);
       form.resetFields();
     } catch (err) {
-      // validateFields sẽ ném lỗi nếu còn field thiếu, không message ở đây
       console.error(err);
+      // validateFields sẽ ném lỗi nếu còn field thiếu; không hiện message ở đây để tránh trùng
     }
   };
 
@@ -125,6 +126,41 @@ const Posts: React.FC = () => {
         : posts.filter((post) => post.category === category),
     [category, posts]
   );
+
+  // Build dynamic base URL for revalidate API
+  const getRevalidateBaseUrl = (siteId: string) => {
+    return `https://${siteId}.com/api/revalidate`;
+  };
+
+  // Clear cache for latest posts (không ảnh hưởng Firestore, chỉ API)
+  const handleClearLatestCache = async () => {
+    try {
+      const baseUrl = getRevalidateBaseUrl(siteId as string);
+      await fetch(baseUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "posts", key: siteId }),
+      });
+      message.success("Cleared latest posts cache");
+    } catch {
+      message.error("Failed to clear latest posts cache");
+    }
+  };
+
+  // Clear cache for post detail
+  const handleClearPostCache = async (slug: string) => {
+    try {
+      const baseUrl = getRevalidateBaseUrl(siteId as string);
+      await fetch(baseUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "news", key: slug }),
+      });
+      message.success("Cleared post detail cache");
+    } catch {
+      message.error("Failed to clear post detail cache");
+    }
+  };
 
   /** Cột bảng */
   const columns: ColumnsType<PostMeta> = useMemo(
@@ -175,7 +211,7 @@ const Posts: React.FC = () => {
         title: "Actions",
         key: "actions",
         fixed: "right",
-        width: 260,
+        width: 360,
         render: (_: any, record: PostMeta) => (
           <Space>
             <Button
@@ -189,6 +225,9 @@ const Posts: React.FC = () => {
             <Button onClick={() => handleEdit(record)}>Edit</Button>
             <Button danger onClick={() => handleDelete(record)}>
               Delete
+            </Button>
+            <Button onClick={() => handleClearPostCache(record.slug)}>
+              Clear Cache
             </Button>
           </Space>
         ),
@@ -225,6 +264,7 @@ const Posts: React.FC = () => {
             <Button type="primary" onClick={handleAdd}>
               Add Post
             </Button>
+            <Button onClick={handleClearLatestCache}>Clear Latest Cache</Button>
           </Space>
         </Col>
       </Row>
@@ -251,7 +291,6 @@ const Posts: React.FC = () => {
         }}
         okText="Save"
         destroyOnClose
-        /** Set form sau khi modal đã mở để chắc chắn Form đã mount */
         afterOpenChange={(open) => {
           if (open && editingPost) {
             form.setFieldsValue({
@@ -268,11 +307,9 @@ const Posts: React.FC = () => {
           <Form.Item name="title" label="Title" rules={[{ required: true }]}>
             <Input placeholder="Post title" />
           </Form.Item>
-
           <Form.Item name="slug" label="Slug" rules={[{ required: true }]}>
             <Input placeholder="unique-post-slug" />
           </Form.Item>
-
           <Form.Item name="category" label="Category">
             <Select
               options={categoryOptions.filter((opt) => opt.value !== "")}
@@ -280,7 +317,6 @@ const Posts: React.FC = () => {
               allowClear
             />
           </Form.Item>
-
           <Form.Item name="status" label="Status" rules={[{ required: true }]}>
             <Select
               options={[
@@ -291,11 +327,9 @@ const Posts: React.FC = () => {
               placeholder="Select status"
             />
           </Form.Item>
-
           <Form.Item name="featuredImageUrl" label="Featured Image URL">
             <Input placeholder="https://example.com/your-image.jpg" />
           </Form.Item>
-
           <Form.Item name="subtitle" label="Subtitle">
             <Input placeholder="Short subtitle..." />
           </Form.Item>

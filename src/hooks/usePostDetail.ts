@@ -1,20 +1,14 @@
+// hooks/usePostDetail.ts
 import { useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getFirestore } from "firebase/firestore";
-import SiteService from "../server/siteService";
-import { PostDetailService } from "../server/postDetailService";
-import { PostMeta } from "../contexts/siteWorkspace/siteWorkspaceTypes";
+import { PostDetailService, type PostDetail } from "../server/postDetailService";
 
 export function usePostDetail(siteId?: string, slug?: string) {
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
 
   const fetchDetail = useCallback(async () => {
     if (!siteId || !slug) return null;
-    const config = await SiteService.getSiteConfig(siteId);
-    if (!config) throw new Error("Site config not found");
-    const app = SiteService.getOrInitFirebaseApp(config, siteId);
-    const firestore = getFirestore(app);
-    return await PostDetailService.fetchDetail(firestore, slug);
+    return PostDetailService.fetchDetailForSite(siteId, slug);
   }, [siteId, slug]);
 
   const {
@@ -29,30 +23,34 @@ export function usePostDetail(siteId?: string, slug?: string) {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async (data: Partial<PostMeta>) => {
-      if (!siteId || !post) return;
-      const config = await SiteService.getSiteConfig(siteId);
-      if (!config) throw new Error("Site config not found");
-      const app = SiteService.getOrInitFirebaseApp(config, siteId);
-      const firestore = getFirestore(app);
-      await PostDetailService.updateDetail(firestore, post.id, data);
+    mutationFn: async (data: Partial<PostDetail>) => {
+      if (!siteId || !slug) throw new Error("Missing siteId/slug");
+      await PostDetailService.updateDetailForSite(siteId, slug, data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["postDetail", siteId, slug] });
+      qc.invalidateQueries({ queryKey: ["postDetail", siteId, slug] });
+    },
+  });
+
+  const createMutation = useMutation({
+    mutationFn: async (data: PostDetail) => {
+      if (!siteId || !slug) throw new Error("Missing siteId/slug");
+      await PostDetailService.createDetailForSite(siteId, slug, data);
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["postDetail", siteId, slug] });
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
-      if (!siteId || !post) return;
-      const config = await SiteService.getSiteConfig(siteId);
-      if (!config) throw new Error("Site config not found");
-      const app = SiteService.getOrInitFirebaseApp(config, siteId);
-      const firestore = getFirestore(app);
-      await PostDetailService.deleteDetail(firestore, post.id);
+      if (!siteId || !slug) throw new Error("Missing siteId/slug");
+      await PostDetailService.deleteDetailForSite(siteId, slug);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["postDetail", siteId, slug] });
+      // Cập nhật lại cả detail và list để màn danh sách mới nhất
+      qc.invalidateQueries({ queryKey: ["postDetail", siteId, slug] });
+      qc.invalidateQueries({ queryKey: ["posts", siteId] });
     },
   });
 
@@ -62,6 +60,7 @@ export function usePostDetail(siteId?: string, slug?: string) {
     error,
     refetchDetail,
     updateDetail: updateMutation.mutateAsync,
+    createDetail: createMutation.mutateAsync,
     deleteDetail: deleteMutation.mutateAsync,
   };
 }

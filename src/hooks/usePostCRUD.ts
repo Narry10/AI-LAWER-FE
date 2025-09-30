@@ -1,40 +1,20 @@
+// hooks/usePostCRUD.ts
 import { useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getFirestore, Timestamp, query, where, orderBy, limit, getDocs } from "firebase/firestore";
-import { PostService } from "../server/postService";
-import SiteService from "../server/siteService";
+import { PostService, type PostCreate, type PostUpdate } from "../server/postService";
 import { PostMeta } from "contexts/siteWorkspace/siteWorkspaceTypes";
 
 export function usePostCRUD(siteId?: string) {
   const queryClient = useQueryClient();
 
-  const fetchPosts = useCallback(async (from?: Date, to?: Date): Promise<PostMeta[]> => {
-    if (!siteId) return [];
-    const config = await SiteService.getSiteConfig(siteId);
-    if (!config) throw new Error("Site config not found");
-    const app = SiteService.getOrInitFirebaseApp(config, siteId);
-    const firestore = getFirestore(app);
-    let q;
-    if (from && to) {
-      q = query(
-        PostService.getCollection(firestore),
-        where("createdAt", ">=", Timestamp.fromDate(from)),
-        where("createdAt", "<=", Timestamp.fromDate(to)),
-        orderBy("createdAt", "desc")
-      );
-    } else {
-      const now = new Date();
-      const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-      q = query(
-        PostService.getCollection(firestore),
-        where("createdAt", ">=", Timestamp.fromDate(sevenDaysAgo)),
-        orderBy("createdAt", "desc"),
-        limit(50)
-      );
-    }
-    const snap = await getDocs(q);
-    return snap.docs.map(doc => PostService.parsePost(Object.assign({}, doc.data(), { id: doc.id })));
-  }, [siteId]);
+  // Lấy danh sách (mặc định: 7 ngày gần nhất xử lý trong service nếu bạn muốn — ở đây mình luôn gọi listByDateForSite theo from/to)
+  const fetchPosts = useCallback(
+    async (from?: Date, to?: Date): Promise<PostMeta[]> => {
+      if (!siteId) return [];
+      return PostService.listByDateForSite(siteId, from, to, 50);
+    },
+    [siteId]
+  );
 
   const {
     data: posts = [],
@@ -47,46 +27,34 @@ export function usePostCRUD(siteId?: string) {
     enabled: !!siteId,
   });
 
+  const invalidate = () =>
+    queryClient.invalidateQueries({ queryKey: ["posts", siteId] });
+
+  // Add
   const addMutation = useMutation({
-    mutationFn: async (data: Omit<PostMeta, "id">) => {
-      if (!siteId) return;
-      const config = await SiteService.getSiteConfig(siteId);
-      if (!config) throw new Error("Site config not found");
-      const app = SiteService.getOrInitFirebaseApp(config, siteId);
-      const firestore = getFirestore(app);
-      return await PostService.addPost(firestore, data);
+    mutationFn: async (data: PostCreate) => {
+      if (!siteId) throw new Error("Missing siteId");
+      return PostService.addForSite(siteId, data);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts", siteId] });
-    },
+    onSuccess: invalidate,
   });
 
+  // Update
   const updateMutation = useMutation({
-    mutationFn: async ({ postId, data }: { postId: string; data: Partial<PostMeta> }) => {
-      if (!siteId) return;
-      const config = await SiteService.getSiteConfig(siteId);
-      if (!config) throw new Error("Site config not found");
-      const app = SiteService.getOrInitFirebaseApp(config, siteId);
-      const firestore = getFirestore(app);
-      await PostService.updatePost(firestore, postId, data);
+    mutationFn: async ({ postId, data }: { postId: string; data: PostUpdate }) => {
+      if (!siteId) throw new Error("Missing siteId");
+      await PostService.updateForSite(siteId, postId, data);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts", siteId] });
-    },
+    onSuccess: invalidate,
   });
 
+  // Delete
   const deleteMutation = useMutation({
     mutationFn: async (postId: string) => {
-      if (!siteId) return;
-      const config = await SiteService.getSiteConfig(siteId);
-      if (!config) throw new Error("Site config not found");
-      const app = SiteService.getOrInitFirebaseApp(config, siteId);
-      const firestore = getFirestore(app);
-      await PostService.deletePost(firestore, postId);
+      if (!siteId) throw new Error("Missing siteId");
+      await PostService.deleteForSite(siteId, postId);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts", siteId] });
-    },
+    onSuccess: invalidate,
   });
 
   return {
@@ -94,9 +62,10 @@ export function usePostCRUD(siteId?: string) {
     loading,
     error,
     refetch,
-    fetchPosts,
+    fetchPosts, // cho phép truyền from/to bên ngoài
     addPost: addMutation.mutateAsync,
-    updatePost: (postId: string, data: Partial<PostMeta>) => updateMutation.mutateAsync({ postId, data }),
+    updatePost: (postId: string, data: PostUpdate) =>
+      updateMutation.mutateAsync({ postId, data }),
     deletePost: deleteMutation.mutateAsync,
   };
 }

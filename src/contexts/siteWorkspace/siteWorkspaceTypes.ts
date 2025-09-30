@@ -36,6 +36,5 @@ export interface PostMeta {
   updatedBy?: string;
   createdAt: string;
   updatedAt: string;
-  content?: string;
 }
 
