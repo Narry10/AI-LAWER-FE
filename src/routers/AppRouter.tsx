@@ -7,14 +7,7 @@ import AdminDashboard from '../views/pages/admins/AdminDashboard';
 
 const AppRouter: React.FC = () => (
   <Router>
-    {/* <Routes>
-      <Route path="/user/*" element={<UserLayout />}>
-        <Route index element={<UserHome />} />
-      </Route>
-      <Route path="/admin/*" element={<AdminLayout />}>
-        <Route index element={<AdminDashboard />} />
-      </Route>
-    </Routes> */}
+
   </Router>
 );
 

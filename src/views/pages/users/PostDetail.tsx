@@ -7,7 +7,7 @@ import { usePostDetail } from "../../../hooks/usePostDetail";
 const PostDetail: React.FC = () => {
   const { id: siteId, slug } = useParams();
   const navigate = useNavigate();
-  const { post, loading, error, fetchDetail, updateDetail, deleteDetail } = usePostDetail(siteId, slug);
+  const { post, loading, error, updateDetail, deleteDetail } = usePostDetail(siteId, slug);
   const [content, setContent] = useState("");
   const [tab, setTab] = useState("split");
   const [dirty, setDirty] = useState(false);
@@ -15,11 +15,6 @@ const PostDetail: React.FC = () => {
   useEffect(() => {
     if (post) setContent(post.content || "");
   }, [post]);
-
-  useEffect(() => {
-    if (slug) fetchDetail();
-    // eslint-disable-next-line
-  }, [slug]);
 
   const stats = useMemo(() => {
     const text = content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -52,6 +47,12 @@ const PostDetail: React.FC = () => {
 
   if (!slug) {
     return <Card style={{ maxWidth: 700, margin: "32px auto", padding: 24 }}><Typography.Text type="danger">Missing slug in URL.</Typography.Text></Card>;
+  }
+  if (loading) {
+    return <Card style={{ maxWidth: 700, margin: "32px auto", padding: 24 }}><Typography.Text>Loading…</Typography.Text></Card>;
+  }
+  if (error) {
+    return <Card style={{ maxWidth: 700, margin: "32px auto", padding: 24 }}><Typography.Text type="danger">{String(error)}</Typography.Text></Card>;
   }
 
   return (

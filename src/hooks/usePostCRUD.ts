@@ -1,11 +1,13 @@
 import { useCallback } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getFirestore, Timestamp, query, where, orderBy, limit, getDocs } from "firebase/firestore";
 import { PostService } from "../server/postService";
 import SiteService from "../server/siteService";
 import { PostMeta } from "contexts/siteWorkspace/siteWorkspaceTypes";
 
 export function usePostCRUD(siteId?: string) {
-  // Fetch posts by date range (default: last 7 days)
+  const queryClient = useQueryClient();
+
   const fetchPosts = useCallback(async (from?: Date, to?: Date): Promise<PostMeta[]> => {
     if (!siteId) return [];
     const config = await SiteService.getSiteConfig(siteId);
@@ -31,35 +33,70 @@ export function usePostCRUD(siteId?: string) {
       );
     }
     const snap = await getDocs(q);
-  return snap.docs.map(doc => PostService.parsePost(Object.assign({}, doc.data(), { id: doc.id })));
+    return snap.docs.map(doc => PostService.parsePost(Object.assign({}, doc.data(), { id: doc.id })));
   }, [siteId]);
 
-  const addPost = useCallback(async (data: Omit<PostMeta, "id">) => {
-    if (!siteId) return;
-    const config = await SiteService.getSiteConfig(siteId);
-    if (!config) throw new Error("Site config not found");
-    const app = SiteService.getOrInitFirebaseApp(config, siteId);
-    const firestore = getFirestore(app);
-    return await PostService.addPost(firestore, data);
-  }, [siteId]);
+  const {
+    data: posts = [],
+    isLoading: loading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["posts", siteId],
+    queryFn: () => fetchPosts(),
+    enabled: !!siteId,
+  });
 
-  const updatePost = useCallback(async (postId: string, data: Partial<PostMeta>) => {
-    if (!siteId) return;
-    const config = await SiteService.getSiteConfig(siteId);
-    if (!config) throw new Error("Site config not found");
-    const app = SiteService.getOrInitFirebaseApp(config, siteId);
-    const firestore = getFirestore(app);
-    await PostService.updatePost(firestore, postId, data);
-  }, [siteId]);
+  const addMutation = useMutation({
+    mutationFn: async (data: Omit<PostMeta, "id">) => {
+      if (!siteId) return;
+      const config = await SiteService.getSiteConfig(siteId);
+      if (!config) throw new Error("Site config not found");
+      const app = SiteService.getOrInitFirebaseApp(config, siteId);
+      const firestore = getFirestore(app);
+      return await PostService.addPost(firestore, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts", siteId] });
+    },
+  });
 
-  const deletePost = useCallback(async (postId: string) => {
-    if (!siteId) return;
-    const config = await SiteService.getSiteConfig(siteId);
-    if (!config) throw new Error("Site config not found");
-    const app = SiteService.getOrInitFirebaseApp(config, siteId);
-    const firestore = getFirestore(app);
-    await PostService.deletePost(firestore, postId);
-  }, [siteId]);
+  const updateMutation = useMutation({
+    mutationFn: async ({ postId, data }: { postId: string; data: Partial<PostMeta> }) => {
+      if (!siteId) return;
+      const config = await SiteService.getSiteConfig(siteId);
+      if (!config) throw new Error("Site config not found");
+      const app = SiteService.getOrInitFirebaseApp(config, siteId);
+      const firestore = getFirestore(app);
+      await PostService.updatePost(firestore, postId, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts", siteId] });
+    },
+  });
 
-  return { fetchPosts, addPost, updatePost, deletePost };
+  const deleteMutation = useMutation({
+    mutationFn: async (postId: string) => {
+      if (!siteId) return;
+      const config = await SiteService.getSiteConfig(siteId);
+      if (!config) throw new Error("Site config not found");
+      const app = SiteService.getOrInitFirebaseApp(config, siteId);
+      const firestore = getFirestore(app);
+      await PostService.deletePost(firestore, postId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts", siteId] });
+    },
+  });
+
+  return {
+    posts,
+    loading,
+    error,
+    refetch,
+    fetchPosts,
+    addPost: addMutation.mutateAsync,
+    updatePost: (postId: string, data: Partial<PostMeta>) => updateMutation.mutateAsync({ postId, data }),
+    deletePost: deleteMutation.mutateAsync,
+  };
 }
