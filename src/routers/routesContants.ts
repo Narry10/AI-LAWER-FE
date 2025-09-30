@@ -4,4 +4,6 @@ export default class RouterPath {
   static readonly BASE_URL = "/";
   static readonly AUTH = "/auth";
   static readonly CHAT = "/chat";
+  static readonly USER = "/user";
 }
+

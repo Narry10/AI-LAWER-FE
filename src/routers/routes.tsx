@@ -6,6 +6,8 @@ import { Navigate, Route, Routes, type RouteObject } from "react-router-dom";
 import { Spin } from "antd";
 
 import { auth } from "configs/firebaseCore";
+import UserLayout from "views/layouts/userLayout";
+import HomeScreen from '../views/pages/users/HomeScreen';
 const LoadingView = () => {
   return (
     <div className="h-screen flex items-center justify-center">
@@ -23,7 +25,18 @@ type CustomRouteProps = RouteObject;
 const ManageView = () => {
   const isLogin = useAppSelector((state) => state.auth.isLogin);
 
-  const routes: CustomRouteProps[] = useMemo(() => [], []);
+  const routes: CustomRouteProps[] = useMemo(() => [
+    {
+      path: "/",
+      element: <UserLayout />,
+      children: [
+        {
+          index: true,
+          element: <HomeScreen />
+        }
+      ]
+    },
+  ], []);
 
   const privateRoutes: CustomRouteProps[] = useMemo(() => [], []);
 

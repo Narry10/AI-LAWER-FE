@@ -26,7 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           email: fbUser.email || '',
           displayName: fbUser.displayName || '',
           photoURL: fbUser.photoURL || '',
-          sites: [], // cần fetch từ Firestore
+          sites: [], 
         };
         setUser(userData);
       } else {
