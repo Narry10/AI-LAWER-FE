@@ -23,6 +23,8 @@ import AdminLayout from "views/layouts/AdminLayout";
 import HomeScreen from "../views/pages/users/HomeScreen";
 import ProfileScreen from "../views/pages/users/ProfileScreen";
 import UserSettingsScreen from "../views/pages/users/UserSettingsScreen";
+import Posts from "../views/pages/users/Posts";
+import PostDetail from "../views/pages/users/PostDetail";
 import AdminDashboard from "../views/pages/admins/AdminDashboard";
 import AdminUsersScreen from "../views/pages/admins/AdminUsersScreen";
 import AdminSettingsScreen from "../views/pages/admins/AdminSettingsScreen";
@@ -87,6 +89,9 @@ const ManageView = () => {
         { index: true, element: <HomeScreen /> },
         { path: "profile", element: <ProfileScreen /> },
         { path: "settings", element: <UserSettingsScreen /> },
+        // Workspace routes
+        { path: "workspace/:id", element: <Posts /> },
+        { path: "workspace/:id/post/:slug", element: <PostDetail /> },
       ],
     },
   ];
