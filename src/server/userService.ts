@@ -21,6 +21,21 @@ export interface UserProfile {
 
 class UserService {
   /**
+   * Lấy role và sites của user theo uid
+   */
+  static async getUserRoleAndSites(uid: string): Promise<Pick<UserProfile, 'role' | 'sites'> | null> {
+    const userRef = doc(firestore, "users", uid);
+    const snapshot: DocumentSnapshot<DocumentData> = await getDoc(userRef);
+    if (snapshot.exists()) {
+      const data = snapshot.data();
+      return {
+        role: data.role,
+        sites: data.sites || [],
+      };
+    }
+    return null;
+  }
+  /**
    * Lấy user theo uid
    */
   static async getUser(uid: string): Promise<UserProfile | null> {

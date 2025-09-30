@@ -9,3 +9,4 @@ export const AUTH_SIGNUP = 'AUTH_SIGNUP'
 
 export const AUTH_LOGOUT = 'AUTH_LOGOUT'
 export const AUTH_LOGGED = 'AUTH_LOGGED'
+

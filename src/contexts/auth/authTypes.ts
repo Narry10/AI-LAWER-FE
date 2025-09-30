@@ -14,3 +14,4 @@ export interface authLogin {
 export interface authSignUp extends authLogin{
 	confirmPassword:string
 }
+
